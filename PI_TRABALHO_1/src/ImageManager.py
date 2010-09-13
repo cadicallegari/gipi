@@ -10,6 +10,8 @@ import CairoPlot
 
 class ImageManager():
     
+    
+    
     def __init__(self):
         pass
 
@@ -58,6 +60,8 @@ class ImageManager():
         h_labels = ["10", "40", "70", "100", "130", "160", "190", "220", "250"]
         CairoPlot.bar_plot("../img/histograma_escala_cinza.png", escala_cinza, 300, 250, border = 20, grid = True, h_labels = h_labels, colors = colors)
     
+    
+    
     #Metodo que gera tres histogramas referentes ao rgb da imagem
     def histograma_rgb (self, file_path):
         img = Image.open(file_path)
@@ -101,6 +105,8 @@ class ImageManager():
         CairoPlot.bar_plot("../img/histograma_green.png", green, 300, 250, border = 20, grid = True, h_labels = h_labels, colors = colors_green)
         CairoPlot.bar_plot("../img/histograma_blue.png", blue, 300, 250, border = 20, grid = True, h_labels = h_labels, colors = colors_blue)
     
+    
+    
     #Metodo que efetua a limiarizacao global simples    
     def limiarizacao_global_simples(self, file_path, limiar_t):
         img = Image.open(file_path)
@@ -116,6 +122,8 @@ class ImageManager():
                 img.putpixel((x,y), (valor,valor,valor))
         
         img.save("../img/modificada_limiarizacao.png")
+    
+    
     
     #Metodo que efetua a limiarizacao baseado em diversas varias
     def limiarizacao_diversas_variaveis(self, file_path, limiar_t, valor_rgb):
@@ -133,7 +141,9 @@ class ImageManager():
                 
         
         img.save("../img/modificada_limiarizacao.png")
-        
+    
+    
+    
     #Metodo que efetua a operacao aritmetica ADICAO entre duas imagens gerando uma terceira imagem
     def operacao_aritmetica_adicao(self, file_path1, file_path2):
         img1 = Image.open(file_path1)
@@ -167,6 +177,8 @@ class ImageManager():
                 img1.putpixel((x,y), (valor_r,valor_g,valor_b))
 
         img1.save("../img/modificada_operacao_aritmetica.png")
+    
+    
     
     #Metodo que efetua a operacao aritmetica SUBTRACAO entre duas imagens gerando uma terceira imagem
     def operacao_aritmetica_subtracao(self, file_path1, file_path2):
@@ -202,6 +214,8 @@ class ImageManager():
     
         img1.save("../img/modificada_operacao_aritmetica.png")
     
+    
+    
     #Metodo que efetua a operacao aritmetica MULTIPLICACAO entre duas imagens gerando uma terceira imagem
     def operacao_aritmetica_multiplicacao(self, file_path1, file_path2):
         img1 = Image.open(file_path1)
@@ -236,9 +250,13 @@ class ImageManager():
     
         img1.save("../img/modificada_operacao_aritmetica.png")
     
+    
+    
     #Metodo que efetua o reescalonamento de valores para a escala 0 a 255 do rgb
     def reescalonamento_de_valores(self, valor, tmax, tmin):
         return int((255 / (tmax - tmin)) * (valor - tmin))
+    
+    
     
     #Metodo que efetua a operacao logica AND entre duas imagens binarias gerando uma terceira imagem
     def operacao_logica_and(self, file_path1, file_path2):
@@ -270,6 +288,8 @@ class ImageManager():
     
         img1.save("../img/modificada_operacao_logica.png")
     
+    
+    
     #Metodo que efetua a operacao logica OR entre duas imagens binarias gerando uma terceira imagem
     def operacao_logica_or(self, file_path1, file_path2):
         img1 = Image.open(file_path1)
@@ -300,6 +320,8 @@ class ImageManager():
 
         img1.save("../img/modificada_operacao_logica.png")
     
+    
+    
     #Metodo que efetua a operacao logica XOR entre duas imagens binarias gerando uma terceira imagem
     def operacao_logica_xor(self, file_path1, file_path2):
         img1 = Image.open(file_path1)
@@ -329,3 +351,201 @@ class ImageManager():
                 img1.putpixel((x,y), (valor,valor,valor))
 
         img1.save("../img/modificada_operacao_logica.png")
+        
+        
+        
+    #Metodo que gera outra imagem filtrado com passa alta basico
+    def filtro_passa_alta_basico(self, file_path):
+        img = Image.open(file_path)
+        img.load()
+        img_result = img
+        
+        #Percorre todos os pixels da imagem
+        for x in range(1, img.size[0] - 1):
+            for y in range(1, img.size[1] - 1):
+                
+                media_r = 0
+                media_g = 0
+                media_b = 0
+                for z in range(x - 1, x + 2):
+                    for w in range(y - 1, y + 2):
+                        media_r = media_r + img.getpixel((z,w))[0]
+                        media_g = media_g + img.getpixel((z,w))[1]
+                        media_b = media_b + img.getpixel((z,w))[2]
+                        
+                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
+                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
+                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+        
+        img_result.save("../img/modificada_filtro.png")
+        
+        
+        
+    #Metodo que gera outra imagem filtrado com media
+    def filtro_media(self, file_path):
+        img = Image.open(file_path)
+        img.load()
+        img_result = img
+        
+        #Percorre todos os pixels da imagem
+        for x in range(1, img.size[0] - 1):
+            for y in range(1, img.size[1] - 1):
+                
+                media_r = 0
+                media_g = 0
+                media_b = 0
+                for z in range(x - 1, x + 2):
+                    for w in range(y - 1, y + 2):
+                        media_r = media_r + img.getpixel((z,w))[0]
+                        media_g = media_g + img.getpixel((z,w))[1]
+                        media_b = media_b + img.getpixel((z,w))[2]
+                        
+                img_result.putpixel((x,y), (int(media_r / 9),
+                                     int(media_g / 9),
+                                     int(media_b / 9)))
+        
+        img_result.save("../img/modificada_filtro.png")
+        
+        
+        
+    #Metodo que gera outra imagem filtrado com mediana
+    def filtro_mediana(self, file_path):
+        img = Image.open(file_path)
+        img.load()
+        img_result = img
+        
+        #Percorre todos os pixels da imagem
+        for x in range(1, img.size[0] - 1):
+            for y in range(1, img.size[1] - 1):
+                
+                mediana_r = []
+                mediana_g = []
+                mediana_b = []
+                for z in range(9):
+                    mediana_r.append(0)
+                    mediana_g.append(0)
+                    mediana_b.append(0)
+            
+                contador = 0;
+                for z in range(x - 1, x + 2):
+                    for w in range(y - 1, y + 2):
+                        mediana_r[contador] = img.getpixel((z,w))[0]
+                        mediana_g[contador] = img.getpixel((z,w))[1]
+                        mediana_b[contador] = img.getpixel((z,w))[2]
+                        contador = contador + 1
+                        
+                mediana_r.sort()
+                mediana_g.sort()
+                mediana_b.sort()
+                
+                img_result.putpixel((x,y), (mediana_r[4], mediana_g[4], mediana_b[4]))
+        
+        img_result.save("../img/modificada_filtro.png")
+        
+        
+        
+    #Metodo que gera outra imagem filtrado com high boost
+    def filtro_high_boost(self, file_path):
+        img = Image.open(file_path)
+        img.load()
+        img_result = img
+        
+        #Percorre todos os pixels da imagem
+        for x in range(1, img.size[0] - 1):
+            for y in range(1, img.size[1] - 1):
+                
+                media_r = 0
+                media_g = 0
+                media_b = 0
+                for z in range(x - 1, x + 2):
+                    for w in range(y - 1, y + 2):
+                        media_r = media_r + img.getpixel((z,w))[0]
+                        media_g = media_g + img.getpixel((z,w))[1]
+                        media_b = media_b + img.getpixel((z,w))[2]
+                        
+                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
+                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
+                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+        
+        img_result.save("../img/modificada_filtro.png")
+        
+        
+        
+    #Metodo que gera outra imagem filtrado com Sobel
+    def filtro_sobel(self, file_path):
+        img = Image.open(file_path)
+        img.load()
+        img_result = img
+        
+        #Percorre todos os pixels da imagem
+        for x in range(1, img.size[0] - 1):
+            for y in range(1, img.size[1] - 1):
+                
+                media_r = 0
+                media_g = 0
+                media_b = 0
+                for z in range(x - 1, x + 2):
+                    for w in range(y - 1, y + 2):
+                        media_r = media_r + img.getpixel((z,w))[0]
+                        media_g = media_g + img.getpixel((z,w))[1]
+                        media_b = media_b + img.getpixel((z,w))[2]
+                        
+                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
+                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
+                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+        
+        img_result.save("../img/modificada_filtro.png")
+        
+        
+        
+    #Metodo que gera outra imagem filtrado com Roberts
+    def filtro_roberts(self, file_path):
+        img = Image.open(file_path)
+        img.load()
+        img_result = img
+        
+        #Percorre todos os pixels da imagem
+        for x in range(1, img.size[0] - 1):
+            for y in range(1, img.size[1] - 1):
+                
+                media_r = 0
+                media_g = 0
+                media_b = 0
+                for z in range(x - 1, x + 2):
+                    for w in range(y - 1, y + 2):
+                        media_r = media_r + img.getpixel((z,w))[0]
+                        media_g = media_g + img.getpixel((z,w))[1]
+                        media_b = media_b + img.getpixel((z,w))[2]
+                        
+                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
+                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
+                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+        
+        img_result.save("../img/modificada_filtro.png")
+        
+        
+        
+    #Metodo que gera outra imagem filtrado com Prewitt
+    def filtro_prewitt(self, file_path):
+        img = Image.open(file_path)
+        img.load()
+        img_result = img
+        
+        #Percorre todos os pixels da imagem
+        for x in range(1, img.size[0] - 1):
+            for y in range(1, img.size[1] - 1):
+                
+                media_r = 0
+                media_g = 0
+                media_b = 0
+                for z in range(x - 1, x + 2):
+                    for w in range(y - 1, y + 2):
+                        media_r = media_r + img.getpixel((z,w))[0]
+                        media_g = media_g + img.getpixel((z,w))[1]
+                        media_b = media_b + img.getpixel((z,w))[2]
+                        
+                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
+                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
+                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+        
+        img_result.save("../img/modificada_filtro.png")

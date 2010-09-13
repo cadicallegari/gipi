@@ -80,6 +80,20 @@ class Gui():
         self.rbOpLogicaXor = gui.get_widget("op_log_radiobutton_xor")
         
         
+        #Controles da aba FILTROS
+        self.fcFiltroOrigem = gui.get_widget("filtro_filechooserbutton_origem")
+        self.fcFiltroDestino = gui.get_widget("filtro_filechooserbutton_destino")
+        self.rbFiltroPassaAlta = gui.get_widget("filtro_radiobutton_passa_alta")
+        self.rbFiltroMedia = gui.get_widget("filtro_radiobutton_media")
+        self.rbFiltroMediana = gui.get_widget("filtro_radiobutton_mediana")
+        self.rbFiltroHighBoost = gui.get_widget("filtro_radiobutton_highboost")
+        self.rbFiltroSobel = gui.get_widget("filtro_radiobutton_sobel")
+        self.rbFiltroRoberts = gui.get_widget("filtro_radiobutton_roberts")
+        self.rbFiltroPrewitt = gui.get_widget("filtro_radiobutton_prewitt")
+        self.btFiltroExecutar = gui.get_widget("filtro_button_executar")
+        self.btFiltroSalvar = gui.get_widget("filtro_button_salvar")
+        
+        
         #Associa os eventos aos controles
         
         #Eventos do menu
@@ -116,6 +130,12 @@ class Gui():
         self.fcOpLogicaOrigem2.connect("file-set", self.actOpLogicaCarregaImagem2)
         self.btOpLogicaExecutar.connect("clicked", self.actOpLogicaExecutar)
         self.btOpLogicaSalvar.connect("clicked", self.actOpLogicaSalvar)
+        
+        
+        #Eventos da aba FILTROS
+        self.fcFiltroOrigem.connect("file-set", self.actFiltroCarregaImagem)
+        self.btFiltroExecutar.connect("clicked", self.actFiltroExecutar)
+        self.btFiltroSalvar.connect("clicked", self.actFiltroSalvar)
         
         self.main_window.show_all()
         self.loop()
@@ -305,6 +325,49 @@ class Gui():
         img = Image.open("../img/modificada_operacao_logica.png")
         file = self.fcOpLogicaOrigem1.get_filename().split("/")
         img.save(self.fcOpLogicaDestino.get_filename() + "/operacao-logica-" + file[len(file) - 1])
+
+
+    #Metodos de FILTROS
+    #Metodo que carrega a imagem no widget de filtro
+    def actFiltroCarregaImagem(self, widget):
+        imagem = self.gui.get_widget('filtro_image_origem')
+        imagem.set_from_file(self.fcFiltroOrigem.get_filename())
+        imagem.show()
+
+
+    #Metodo que gera a imagem filtrada
+    def actFiltroExecutar(self, widget):
+        imageManager = ImageManager()
+        if (self.rbFiltroPassaAlta.get_active()):
+            imageManager.filtro_passa_alta_basico(self.fcFiltroOrigem.get_filename())
+        else:
+            if (self.rbFiltroMedia.get_active()):
+                imageManager.filtro_media(self.fcFiltroOrigem.get_filename())
+            else:
+                if (self.rbFiltroMediana.get_active()):
+                    imageManager.filtro_mediana(self.fcFiltroOrigem.get_filename())
+                else:
+                    if (self.rbFiltroHighBoost.get_active()):
+                        imageManager.filtro_high_boost(self.fcFiltroOrigem.get_filename())
+                    else:
+                        if (self.rbFiltroSobel.get_active()):
+                            imageManager.filtro_sobel(self.fcFiltroOrigem.get_filename())
+                        else:
+                            if (self.rbFiltroRoberts.get_active()):
+                                imageManager.filtro_roberts(self.fcFiltroOrigem.get_filename())
+                            else:
+                                imageManager.filtro_prewitt(self.fcFiltroOrigem.get_filename())
+                                
+        imagem = self.gui.get_widget('filtro_image_gerada')
+        imagem.set_from_file("../img/modificada_filtro.png")
+        imagem.show()
+    
+    
+    #Metodo que salva a imagem filtrada
+    def actFiltroSalvar(self, widget):
+        img = Image.open("../img/modificada_filtro.png")
+        file = self.fcFiltroOrigem.get_filename().split("/")
+        img.save(self.fcFiltroDestino.get_filename() + "/filtro-" + file[len(file) - 1])
 
 
 class Sobre():
