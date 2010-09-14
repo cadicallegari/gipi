@@ -360,22 +360,59 @@ class ImageManager():
         img.load()
         img_result = img
         
-        #Percorre todos os pixels da imagem
+        matriz_auxiliar = []
+        for a in range(3):
+            matriz_auxiliar.append([])
+            for b in range(3):
+                matriz_auxiliar[a].append([])
+        
+        matriz_auxiliar[0][0] = -1.0/9
+        matriz_auxiliar[0][1] = -1.0/9
+        matriz_auxiliar[0][2] = -1.0/9
+        matriz_auxiliar[1][0] = -1.0/9
+        matriz_auxiliar[1][1] = 8.0/9
+        matriz_auxiliar[1][2] = -1.0/9
+        matriz_auxiliar[2][0] = -1.0/9
+        matriz_auxiliar[2][1] = -1.0/9
+        matriz_auxiliar[2][2] = -1.0/9
+        
         for x in range(1, img.size[0] - 1):
             for y in range(1, img.size[1] - 1):
-                
-                media_r = 0
-                media_g = 0
-                media_b = 0
+                somador_r = 0.0
+                somador_g = 0.0
+                somador_b = 0.0
+                a = 0
+                b = 0
                 for z in range(x - 1, x + 2):
                     for w in range(y - 1, y + 2):
-                        media_r = media_r + img.getpixel((z,w))[0]
-                        media_g = media_g + img.getpixel((z,w))[1]
-                        media_b = media_b + img.getpixel((z,w))[2]
+                        abc = img.getpixel((z,w))
+                        somador_r = somador_r + abc[0] * matriz_auxiliar[a][b]
+                        somador_g = somador_g + abc[1] * matriz_auxiliar[a][b]
+                        somador_b = somador_b + abc[2] * matriz_auxiliar[a][b]
+                        b = b + 1
+                    b = 0
+                    a = a + 1
+                
+                if (somador_r < 0) :
+                    somador_r = 0
+                else :
+                    if (somador_r > 255) :
+                        somador_r = 255
                         
-                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
-                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
-                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+                if (somador_g < 0) :
+                    somador_g = 0
+                else :
+                    if (somador_g > 255) :
+                        somador_g = 255
+
+                if (somador_b < 0) :
+                    somador_b = 0
+                else :
+                    if (somador_b > 255) :
+                        somador_b = 255
+
+                
+                img_result.putpixel((x,y), (int(somador_r), int(somador_g), int(somador_b)))
         
         img_result.save("../img/modificada_filtro.png")
         
