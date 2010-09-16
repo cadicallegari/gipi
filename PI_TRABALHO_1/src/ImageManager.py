@@ -11,7 +11,7 @@ import CairoPlot
 class ImageManager():
     
     
-    
+    #Construtor da classe ImageManager
     def __init__(self):
         pass
 
@@ -21,105 +21,148 @@ class ImageManager():
     def escala_cinza(self, file_path):
         img = Image.open(file_path)
         img.load()
-        
-        #Percorre todos os pixels da imagem pegando os valores RGB e dividindo por 3 (media)
-        for x in range(img.size[0]):
-            for y in range(img.size[1]):
-                valor = int((img.getpixel((x,y))[0] 
-                                 + img.getpixel((x,y))[1]
-                                 + img.getpixel((x,y))[2]) / 3)
-                img.putpixel((x,y), (valor,valor,valor))
+
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+                
+            #Percorre todos os pixels da imagem pegando os valores RGB e dividindo por 3 (media)
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    pixel = img.getpixel((x, y))
+                    media = int((pixel[0] + pixel[1] + pixel[2]) / 3)
+                    img.putpixel((x, y), (media, media, media))
+        except :
+            #Caso a imagem nao tenha RGB, nao e necessario efetuar a media, pois a imagem gerada e igual a imagem origem
+            pass
         
         img.save("../img/modificada_escala_cinza.png")
 
 
-    
+
     #Metodo que gera um histograma referentes a escala de cinza da imagem
     def histograma_escala_cinza (self, file_path):
         img = Image.open(file_path)
         img.load()
         
-        #Inicializa o array de 256 posicoes
+        #Inicializa arrays de 256 posicoes para contagem de cores e para cores do grafico
         escala_cinza = []
-        for x in range(256):
-            escala_cinza.append(0)
-        
-        #Percorre todos os pixels da imagem incrementando uma vez na posicao do valor do pixel
-        #img[0] X e img[1] Y
-        for x in range(img.size[0]):
-            for y in range(img.size[1]):
-                posicao = int(img.getpixel((x,y))[0])
-                escala_cinza[posicao] += 1
-        
-        #Array de cores do grafico
         colors = []
         for x in range(256):
+            escala_cinza.append(0)
             colors.append((0, 0, 0))
+
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+
+            #Percorre todos os pixels da imagem incrementando uma vez na posicao do valor do pixel
+            #img[0] X e img[1] Y
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    pixel = img.getpixel((x,y))
+                    escala_cinza[pixel[0]] += 1
+        except :
+            #Caso a imagem nao tenha RGB
+            #Percorre todos os pixels da imagem incrementando uma vez na posicao do valor do pixel
+            #img[0] X e img[1] Y
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    pixel = img.getpixel((x,y))
+                    escala_cinza[pixel] += 1
         
         #Plotagem do grafico
         h_labels = ["10", "40", "70", "100", "130", "160", "190", "220", "250"]
         CairoPlot.bar_plot("../img/histograma_escala_cinza.png", escala_cinza, 300, 250, border = 20, grid = True, h_labels = h_labels, colors = colors)
-    
-    
-    
+
+
+
     #Metodo que gera tres histogramas referentes ao rgb da imagem
     def histograma_rgb (self, file_path):
         img = Image.open(file_path)
         img.load()
         
-        #Inicializa os tres vetores de 256 posicoes
+        #Inicializa arrays de 256 posicoes para contagem de cores e para cores do grafico
         red = []
         green = []
         blue = []
-        for x in range(256):
-            red.append(0)
-            green.append(0)
-            blue.append(0)
-        
-        #Percorre todos os pixels da imagem incrementando uma vez na posicao do valor do pixel
-        #img[0] X e img[1] Y
-        for x in range(img.size[0]):
-            for y in range(img.size[1]):
-                #Cor Red
-                posicao = int(img.getpixel((x,y))[0])
-                red[posicao] += 1
-                #Cor Green
-                posicao = int(img.getpixel((x,y))[1])
-                green[posicao] += 1
-                #Cor Blue
-                posicao = int(img.getpixel((x,y))[2])
-                blue[posicao] += 1
-        
-        #Arrays de cores dos graficos
         colors_red = []
         colors_green = []
         colors_blue = []
         for x in range(256):
+            red.append(0)
+            green.append(0)
+            blue.append(0)
             colors_red.append((1, 0, 0))
             colors_green.append((0, 1, 0))
             colors_blue.append((0, 0, 1))
+
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+
+            #Percorre todos os pixels da imagem incrementando uma vez na posicao do valor do pixel
+            #img[0] X e img[1] Y
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    pixel = img.getpixel((x,y))
+                    red[pixel[0]] += 1
+                    green[pixel[1]] += 1
+                    blue[pixel[2]] += 1
+        except :
+            #Caso a imagem nao tenha RGB
+            #Percorre todos os pixels da imagem incrementando uma vez na posicao do valor do pixel
+            #img[0] X e img[1] Y
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    pixel = img.getpixel((x,y))
+                    red[pixel] += 1
+                    green[pixel] += 1
+                    blue[pixel] += 1
         
         #Plotagem do grafico
         h_labels = ["10", "40", "70", "100", "130", "160", "190", "220", "250"]
         CairoPlot.bar_plot("../img/histograma_red.png", red, 300, 250, border = 20, grid = True, h_labels = h_labels, colors = colors_red)
         CairoPlot.bar_plot("../img/histograma_green.png", green, 300, 250, border = 20, grid = True, h_labels = h_labels, colors = colors_green)
         CairoPlot.bar_plot("../img/histograma_blue.png", blue, 300, 250, border = 20, grid = True, h_labels = h_labels, colors = colors_blue)
-    
-    
-    
+   
+   
+
     #Metodo que efetua a limiarizacao global simples    
     def limiarizacao_global_simples(self, file_path, limiar_t):
         img = Image.open(file_path)
         img.load()
         
-        #Percorre todos os pixels da imagem e compara com o limiar t
-        for x in range(img.size[0]):
-            for y in range(img.size[1]):
-                if (img.getpixel((x,y))[0] > int(limiar_t)):
-                    valor = 0 
-                else:
-                    valor = 255
-                img.putpixel((x,y), (valor,valor,valor))
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+
+            #Percorre todos os pixels da imagem e compara com o limiar t
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    if (img.getpixel((x,y))[0] > int(limiar_t)):
+                        valor = 0 
+                    else:
+                        valor = 255
+                    img.putpixel((x,y), (valor, valor, valor))
+        except :
+            #Caso a imagem nao tenha RGB
+            #Percorre todos os pixels da imagem e compara com o limiar t
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    if (img.getpixel((x,y)) > int(limiar_t)):
+                        valor = 0 
+                    else:
+                        valor = 255
+                    img.putpixel((x,y), valor)
         
         img.save("../img/modificada_limiarizacao.png")
     
@@ -130,15 +173,33 @@ class ImageManager():
         img = Image.open(file_path)
         img.load()
         
-        #Percorre todos os pixels da imagem e compara com o limiar t
-        for x in range(img.size[0]):
-            for y in range(img.size[1]):
-                distancia = sqrt(pow(valor_rgb[0] - img.getpixel((x,y))[0], 2) + 
-                                 pow(valor_rgb[1] - img.getpixel((x,y))[1], 2) +
-                                 pow(valor_rgb[2] - img.getpixel((x,y))[2], 2))
-                if (distancia > limiar_t):
-                    img.putpixel((x,y), (0, 0, 0))
-                
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+            
+            #Percorre todos os pixels da imagem e compara com o limiar t
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    pixel = img.getpixel((x,y))
+                    distancia = sqrt(pow(valor_rgb[0] - pixel[0], 2) + 
+                                     pow(valor_rgb[1] - pixel[1], 2) +
+                                     pow(valor_rgb[2] - pixel[2], 2))
+                    if (distancia > limiar_t):
+                        img.putpixel((x,y), (0, 0, 0))
+                        
+        except :
+            #Caso a imagem nao tenha RGB
+            #Percorre todos os pixels da imagem e compara com o limiar t
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    pixel = img.getpixel((x,y))
+                    distancia = sqrt(pow(valor_rgb[0] - pixel[0], 2) + 
+                                     pow(valor_rgb[1] - pixel[1], 2) +
+                                     pow(valor_rgb[2] - pixel[2], 2))
+                    if (distancia > limiar_t):
+                        img.putpixel((x,y), 0)
         
         img.save("../img/modificada_limiarizacao.png")
     
@@ -165,16 +226,19 @@ class ImageManager():
 
         for x in range(tamanho_x):
             for y in range(tamanho_y):
-                valor_r = img1.getpixel((x,y))[0] + img2.getpixel((x,y))[0]
-                valor_g = img1.getpixel((x,y))[1] + img2.getpixel((x,y))[1]
-                valor_b = img1.getpixel((x,y))[2] + img2.getpixel((x,y))[2]
+                pixel1 = img1.getpixel((x,y))
+                pixel2 = img2.getpixel((x,y))
+                
+                valor_r = pixel1[0] + pixel2[0]
+                valor_g = pixel1[1] + pixel2[1]
+                valor_b = pixel1[2] + pixel2[2]
                 
                 #Reescalonamento de valores
                 valor_r = self.reescalonamento_de_valores(valor_r, 510, 0)
                 valor_g = self.reescalonamento_de_valores(valor_g, 510, 0)
                 valor_b = self.reescalonamento_de_valores(valor_b, 510, 0)
                     
-                img1.putpixel((x,y), (valor_r,valor_g,valor_b))
+                img1.putpixel((x,y), (valor_r, valor_g, valor_b))
 
         img1.save("../img/modificada_operacao_aritmetica.png")
     
@@ -358,7 +422,7 @@ class ImageManager():
     def filtro_passa_alta_basico(self, file_path):
         img = Image.open(file_path)
         img.load()
-        img_result = img
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
         
         matriz_auxiliar = []
         for a in range(3):
@@ -366,32 +430,38 @@ class ImageManager():
             for b in range(3):
                 matriz_auxiliar[a].append([])
         
-        matriz_auxiliar[0][0] = -1.0/9
-        matriz_auxiliar[0][1] = -1.0/9
-        matriz_auxiliar[0][2] = -1.0/9
-        matriz_auxiliar[1][0] = -1.0/9
-        matriz_auxiliar[1][1] = 8.0/9
-        matriz_auxiliar[1][2] = -1.0/9
-        matriz_auxiliar[2][0] = -1.0/9
-        matriz_auxiliar[2][1] = -1.0/9
-        matriz_auxiliar[2][2] = -1.0/9
+        matriz_auxiliar[0][0] = -1
+        matriz_auxiliar[0][1] = -1
+        matriz_auxiliar[0][2] = -1
+        matriz_auxiliar[1][0] = -1
+        matriz_auxiliar[1][1] = 8
+        matriz_auxiliar[1][2] = -1
+        matriz_auxiliar[2][0] = -1
+        matriz_auxiliar[2][1] = -1
+        matriz_auxiliar[2][2] = -1
         
-        for x in range(1, img.size[0] - 1):
-            for y in range(1, img.size[1] - 1):
-                somador_r = 0.0
-                somador_g = 0.0
-                somador_b = 0.0
-                a = 0
-                b = 0
-                for z in range(x - 1, x + 2):
-                    for w in range(y - 1, y + 2):
-                        abc = img.getpixel((z,w))
-                        somador_r = somador_r + abc[0] * matriz_auxiliar[a][b]
-                        somador_g = somador_g + abc[1] * matriz_auxiliar[a][b]
-                        somador_b = somador_b + abc[2] * matriz_auxiliar[a][b]
-                        b = b + 1
-                    b = 0
-                    a = a + 1
+        for i in range(0, img.size[0]):
+            for j in range(0, img.size[1]):
+                somador_r = 0
+                somador_g = 0
+                somador_b = 0
+                
+                for x in range(-1, 2):
+                    for y in range(-1, 2):
+                        if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                            pixel = (0, 0, 0)
+                        else :
+                            var_x = i + x
+                            var_y = j + y
+                            pixel = img.getpixel((var_x, var_y))
+                        
+                        somador_r += pixel[0] * matriz_auxiliar[x + 1][y+ 1]
+                        somador_g += pixel[1] * matriz_auxiliar[x + 1][y+ 1]
+                        somador_b += pixel[2] * matriz_auxiliar[x + 1][y+ 1]
+                
+                somador_r = int(somador_r/9)
+                somador_g = int(somador_g/9)
+                somador_b = int(somador_b/9)
                 
                 if (somador_r < 0) :
                     somador_r = 0
@@ -412,7 +482,7 @@ class ImageManager():
                         somador_b = 255
 
                 
-                img_result.putpixel((x,y), (int(somador_r), int(somador_g), int(somador_b)))
+                img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
         
         img_result.save("../img/modificada_filtro.png")
         
