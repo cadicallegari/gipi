@@ -21,6 +21,7 @@ class ImageManager():
     def escala_cinza(self, file_path):
         img = Image.open(file_path)
         img.load()
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
 
         #Verifica qual o tipo de codec utilizado na criacao da imagem
         pixel = img.getpixel((0, 0))
@@ -33,12 +34,12 @@ class ImageManager():
                 for y in range(img.size[1]):
                     pixel = img.getpixel((x, y))
                     media = int((pixel[0] + pixel[1] + pixel[2]) / 3)
-                    img.putpixel((x, y), (media, media, media))
+                    img_result.putpixel((x, y), (media, media, media))
         except :
             #Caso a imagem nao tenha RGB, nao e necessario efetuar a media, pois a imagem gerada e igual a imagem origem
             pass
         
-        img.save("../img/modificada_escala_cinza.png")
+        img_result.save("../img/modificada_escala_cinza.png")
 
 
 
@@ -138,6 +139,7 @@ class ImageManager():
     def limiarizacao_global_simples(self, file_path, limiar_t):
         img = Image.open(file_path)
         img.load()
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
         
         #Verifica qual o tipo de codec utilizado na criacao da imagem
         pixel = img.getpixel((0, 0))
@@ -152,7 +154,7 @@ class ImageManager():
                         valor = 0 
                     else:
                         valor = 255
-                    img.putpixel((x,y), (valor, valor, valor))
+                    img_result.putpixel((x,y), (valor, valor, valor))
         except :
             #Caso a imagem nao tenha RGB
             #Percorre todos os pixels da imagem e compara com o limiar t
@@ -162,9 +164,9 @@ class ImageManager():
                         valor = 0 
                     else:
                         valor = 255
-                    img.putpixel((x,y), valor)
+                    img_result.putpixel((x,y), valor, valor, valor)
         
-        img.save("../img/modificada_limiarizacao.png")
+        img_result.save("../img/modificada_limiarizacao.png")
     
     
     
@@ -172,6 +174,7 @@ class ImageManager():
     def limiarizacao_diversas_variaveis(self, file_path, limiar_t, valor_rgb):
         img = Image.open(file_path)
         img.load()
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
         
         #Verifica qual o tipo de codec utilizado na criacao da imagem
         pixel = img.getpixel((0, 0))
@@ -187,21 +190,13 @@ class ImageManager():
                                      pow(valor_rgb[1] - pixel[1], 2) +
                                      pow(valor_rgb[2] - pixel[2], 2))
                     if (distancia > limiar_t):
-                        img.putpixel((x,y), (0, 0, 0))
+                        img_result.putpixel((x,y), (0, 0, 0))
                         
         except :
-            #Caso a imagem nao tenha RGB
-            #Percorre todos os pixels da imagem e compara com o limiar t
-            for x in range(img.size[0]):
-                for y in range(img.size[1]):
-                    pixel = img.getpixel((x,y))
-                    distancia = sqrt(pow(valor_rgb[0] - pixel[0], 2) + 
-                                     pow(valor_rgb[1] - pixel[1], 2) +
-                                     pow(valor_rgb[2] - pixel[2], 2))
-                    if (distancia > limiar_t):
-                        img.putpixel((x,y), 0)
+            #Caso a imagem nao tenha RGB, nao se pode fazer diversas variaveis, pois deve ser uma imagem colorida
+            pass
         
-        img.save("../img/modificada_limiarizacao.png")
+        img_result.save("../img/modificada_limiarizacao.png")
     
     
     
@@ -210,10 +205,9 @@ class ImageManager():
         img1 = Image.open(file_path1)
         img2 = Image.open(file_path2)
         img1.load()
-        img2.load()    
+        img2.load()
         
-        #Percorre todos os pixels da imagem pegando os valores dos pixels das duas imagens e adiciona,
-        #gerando uma terceira imagem
+        #Verifica o tamanho menor das imagens em x e em y
         if (img1.size[0] > img2.size[0]):
             tamanho_x = img2.size[0]
         else:
@@ -223,24 +217,89 @@ class ImageManager():
             tamanho_y = img2.size[1]
         else:
             tamanho_y = img1.size[1]
-
-        for x in range(tamanho_x):
-            for y in range(tamanho_y):
-                pixel1 = img1.getpixel((x,y))
-                pixel2 = img2.getpixel((x,y))
-                
-                valor_r = pixel1[0] + pixel2[0]
-                valor_g = pixel1[1] + pixel2[1]
-                valor_b = pixel1[2] + pixel2[2]
-                
-                #Reescalonamento de valores
-                valor_r = self.reescalonamento_de_valores(valor_r, 510, 0)
-                valor_g = self.reescalonamento_de_valores(valor_g, 510, 0)
-                valor_b = self.reescalonamento_de_valores(valor_b, 510, 0)
+        
+        img_result = Image.new("RGB", (tamanho_x, tamanho_y))
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel1 = img1.getpixel((0, 0))
+        pixel2 = img2.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel1)
+            len(pixel2)
+            
+            for x in range(tamanho_x):
+                for y in range(tamanho_y):
+                    pixel1 = img1.getpixel((x,y))
+                    pixel2 = img2.getpixel((x,y))
                     
-                img1.putpixel((x,y), (valor_r, valor_g, valor_b))
+                    valor_r = pixel1[0] + pixel2[0]
+                    valor_g = pixel1[1] + pixel2[1]
+                    valor_b = pixel1[2] + pixel2[2]
+                    
+                    #Reescalonamento de valores
+                    valor_r = self.reescalonamento_de_valores(valor_r, 510, 0)
+                    valor_g = self.reescalonamento_de_valores(valor_g, 510, 0)
+                    valor_b = self.reescalonamento_de_valores(valor_b, 510, 0)
+                    
+                    img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+        except :
+            #Caso no minimo uma das imagens nao tenha RGB
+            try :
+                #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                len(pixel1)
+                
+                for x in range(tamanho_x):
+                    for y in range(tamanho_y):
+                        pixel1 = img1.getpixel((x,y))
+                        pixel2 = img2.getpixel((x,y))
+                        
+                        valor_r = pixel1[0] + pixel2
+                        valor_g = pixel1[1] + pixel2
+                        valor_b = pixel1[2] + pixel2
+                        
+                        #Reescalonamento de valores
+                        valor_r = self.reescalonamento_de_valores(valor_r, 510, 0)
+                        valor_g = self.reescalonamento_de_valores(valor_g, 510, 0)
+                        valor_b = self.reescalonamento_de_valores(valor_b, 510, 0)
+                        
+                        img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+            except :
+                #Caso no minimo uma das imagens nao tenha RGB
+                try :
+                    #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                    len(pixel2)
+                    
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            pixel1 = img1.getpixel((x,y))
+                            pixel2 = img2.getpixel((x,y))
+                            
+                            valor_r = pixel1 + pixel2[0]
+                            valor_g = pixel1 + pixel2[1]
+                            valor_b = pixel1 + pixel2[2]
+                            
+                            #Reescalonamento de valores
+                            valor_r = self.reescalonamento_de_valores(valor_r, 510, 0)
+                            valor_g = self.reescalonamento_de_valores(valor_g, 510, 0)
+                            valor_b = self.reescalonamento_de_valores(valor_b, 510, 0)
+                            
+                            img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+                except :
+                    #Caso no minimo de as duas nao terem vao RGB
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            pixel1 = img1.getpixel((x,y))
+                            pixel2 = img2.getpixel((x,y))
+                            
+                            valor = pixel1 + pixel2
+                            
+                            #Reescalonamento de valores
+                            valor = self.reescalonamento_de_valores(valor, 510, 0)
+                            
+                            img_result.putpixel((x,y), (valor, valor, valor))
 
-        img1.save("../img/modificada_operacao_aritmetica.png")
+        img_result.save("../img/modificada_operacao_aritmetica.png")
     
     
     
@@ -249,10 +308,9 @@ class ImageManager():
         img1 = Image.open(file_path1)
         img2 = Image.open(file_path2)
         img1.load()
-        img2.load()    
+        img2.load()
         
-        #Percorre todos os pixels da imagem pegando os valores dos pixels das duas imagens e subtraindo,
-        #gerando uma terceira imagem
+        #Verifica o tamanho menor das imagens em x e em y
         if (img1.size[0] > img2.size[0]):
             tamanho_x = img2.size[0]
         else:
@@ -262,21 +320,89 @@ class ImageManager():
             tamanho_y = img2.size[1]
         else:
             tamanho_y = img1.size[1]
-
-        for x in range(tamanho_x):
-            for y in range(tamanho_y):
-                valor_r = img1.getpixel((x,y))[0] - img2.getpixel((x,y))[0]
-                valor_g = img1.getpixel((x,y))[1] - img2.getpixel((x,y))[1]
-                valor_b = img1.getpixel((x,y))[2] - img2.getpixel((x,y))[2]
+        
+        img_result = Image.new("RGB", (tamanho_x, tamanho_y))
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel1 = img1.getpixel((0, 0))
+        pixel2 = img2.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel1)
+            len(pixel2)
+            
+            for x in range(tamanho_x):
+                for y in range(tamanho_y):
+                    pixel1 = img1.getpixel((x,y))
+                    pixel2 = img2.getpixel((x,y))
+                    
+                    valor_r = pixel1[0] - pixel2[0]
+                    valor_g = pixel1[1] - pixel2[1]
+                    valor_b = pixel1[2] - pixel2[2]
+                    
+                    #Reescalonamento de valores
+                    valor_r = self.reescalonamento_de_valores(valor_r, 255, -255)
+                    valor_g = self.reescalonamento_de_valores(valor_g, 255, -255)
+                    valor_b = self.reescalonamento_de_valores(valor_b, 255, -255)
+                    
+                    img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+        except :
+            #Caso no minimo uma das imagens nao tenha RGB
+            try :
+                #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                len(pixel1)
                 
-                #Reescalonamento de valores
-                valor_r = self.reescalonamento_de_valores(valor_r, 255, -255)
-                valor_g = self.reescalonamento_de_valores(valor_g, 255, -255)
-                valor_b = self.reescalonamento_de_valores(valor_b, 255, -255)
+                for x in range(tamanho_x):
+                    for y in range(tamanho_y):
+                        pixel1 = img1.getpixel((x,y))
+                        pixel2 = img2.getpixel((x,y))
+                        
+                        valor_r = pixel1[0] - pixel2
+                        valor_g = pixel1[1] - pixel2
+                        valor_b = pixel1[2] - pixel2
+                        
+                        #Reescalonamento de valores
+                        valor_r = self.reescalonamento_de_valores(valor_r, 255, -255)
+                        valor_g = self.reescalonamento_de_valores(valor_g, 255, -255)
+                        valor_b = self.reescalonamento_de_valores(valor_b, 255, -255)
+                        
+                        img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+            except :
+                #Caso no minimo uma das imagens nao tenha RGB
+                try :
+                    #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                    len(pixel2)
+                    
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            pixel1 = img1.getpixel((x,y))
+                            pixel2 = img2.getpixel((x,y))
+                            
+                            valor_r = pixel1 - pixel2[0]
+                            valor_g = pixel1 - pixel2[1]
+                            valor_b = pixel1 - pixel2[2]
+                            
+                            #Reescalonamento de valores
+                            valor_r = self.reescalonamento_de_valores(valor_r, 255, -255)
+                            valor_g = self.reescalonamento_de_valores(valor_g, 255, -255)
+                            valor_b = self.reescalonamento_de_valores(valor_b, 255, -255)
+                            
+                            img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+                except :
+                    #Caso no minimo de as duas nao terem vao RGB
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            pixel1 = img1.getpixel((x,y))
+                            pixel2 = img2.getpixel((x,y))
+                            
+                            valor = pixel1 - pixel2
+                            
+                            #Reescalonamento de valores
+                            valor = self.reescalonamento_de_valores(valor, 255, -255)
+                            
+                            img_result.putpixel((x,y), (valor, valor, valor))
 
-                img1.putpixel((x,y), (valor_r,valor_g,valor_b))
-    
-        img1.save("../img/modificada_operacao_aritmetica.png")
+        img_result.save("../img/modificada_operacao_aritmetica.png")
     
     
     
@@ -285,10 +411,9 @@ class ImageManager():
         img1 = Image.open(file_path1)
         img2 = Image.open(file_path2)
         img1.load()
-        img2.load()    
+        img2.load()
         
-        #Percorre todos os pixels da imagem pegando os valores dos pixels das duas imagens e multiplicando,
-        #gerando uma terceira imagem
+        #Verifica o tamanho menor das imagens em x e em y
         if (img1.size[0] > img2.size[0]):
             tamanho_x = img2.size[0]
         else:
@@ -298,21 +423,89 @@ class ImageManager():
             tamanho_y = img2.size[1]
         else:
             tamanho_y = img1.size[1]
-
-        for x in range(tamanho_x):
-            for y in range(tamanho_y):
-                valor_r = img1.getpixel((x,y))[0] * img2.getpixel((x,y))[0]
-                valor_g = img1.getpixel((x,y))[1] * img2.getpixel((x,y))[1]
-                valor_b = img1.getpixel((x,y))[2] * img2.getpixel((x,y))[2]
-                
-                #Reescalonamento de valores
-                valor_r = self.reescalonamento_de_valores(valor_r, 65025, 0)
-                valor_g = self.reescalonamento_de_valores(valor_g, 65025, 0)
-                valor_b = self.reescalonamento_de_valores(valor_b, 65025, 0)
+        
+        img_result = Image.new("RGB", (tamanho_x, tamanho_y))
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel1 = img1.getpixel((0, 0))
+        pixel2 = img2.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel1)
+            len(pixel2)
+            
+            for x in range(tamanho_x):
+                for y in range(tamanho_y):
+                    pixel1 = img1.getpixel((x,y))
+                    pixel2 = img2.getpixel((x,y))
                     
-                img1.putpixel((x,y), (valor_r,valor_g,valor_b))
-    
-        img1.save("../img/modificada_operacao_aritmetica.png")
+                    valor_r = pixel1[0] * pixel2[0]
+                    valor_g = pixel1[1] * pixel2[1]
+                    valor_b = pixel1[2] * pixel2[2]
+                    
+                    #Reescalonamento de valores
+                    valor_r = self.reescalonamento_de_valores(valor_r, 65025, 0)
+                    valor_g = self.reescalonamento_de_valores(valor_g, 65025, 0)
+                    valor_b = self.reescalonamento_de_valores(valor_b, 65025, 0)
+                    
+                    img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+        except :
+            #Caso no minimo uma das imagens nao tenha RGB
+            try :
+                #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                len(pixel1)
+                
+                for x in range(tamanho_x):
+                    for y in range(tamanho_y):
+                        pixel1 = img1.getpixel((x,y))
+                        pixel2 = img2.getpixel((x,y))
+                        
+                        valor_r = pixel1[0] * pixel2
+                        valor_g = pixel1[1] * pixel2
+                        valor_b = pixel1[2] * pixel2
+                        
+                        #Reescalonamento de valores
+                        valor_r = self.reescalonamento_de_valores(valor_r, 65025, 0)
+                        valor_g = self.reescalonamento_de_valores(valor_g, 65025, 0)
+                        valor_b = self.reescalonamento_de_valores(valor_b, 65025, 0)
+                        
+                        img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+            except :
+                #Caso no minimo uma das imagens nao tenha RGB
+                try :
+                    #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                    len(pixel2)
+                    
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            pixel1 = img1.getpixel((x,y))
+                            pixel2 = img2.getpixel((x,y))
+                            
+                            valor_r = pixel1 * pixel2[0]
+                            valor_g = pixel1 * pixel2[1]
+                            valor_b = pixel1 * pixel2[2]
+                            
+                            #Reescalonamento de valores
+                            valor_r = self.reescalonamento_de_valores(valor_r, 65025, 0)
+                            valor_g = self.reescalonamento_de_valores(valor_g, 65025, 0)
+                            valor_b = self.reescalonamento_de_valores(valor_b, 65025, 0)
+                            
+                            img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+                except :
+                    #Caso no minimo de as duas nao terem vao RGB
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            pixel1 = img1.getpixel((x,y))
+                            pixel2 = img2.getpixel((x,y))
+                            
+                            valor = pixel1 * pixel2
+                            
+                            #Reescalonamento de valores
+                            valor = self.reescalonamento_de_valores(valor, 65025, 0)
+                            
+                            img_result.putpixel((x,y), (valor, valor, valor))
+
+        img_result.save("../img/modificada_operacao_aritmetica.png")
     
     
     
@@ -340,17 +533,62 @@ class ImageManager():
             tamanho_y = img2.size[1]
         else:
             tamanho_y = img1.size[1]
+            
+        img_result = Image.new("RGB", (tamanho_x, tamanho_y))
 
-        for x in range(tamanho_x):
-            for y in range(tamanho_y):
-                if (img1.getpixel((x,y))[0] == 255 and img2.getpixel((x,y))[0] == 255):
-                    valor = 255
-                else :
-                    valor = 0
-                        
-                img1.putpixel((x,y), (valor,valor,valor))
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel1 = img1.getpixel((0, 0))
+        pixel2 = img2.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel1)
+            len(pixel2)
+            
+            for x in range(tamanho_x):
+                for y in range(tamanho_y):
+                    if (img1.getpixel((x,y))[0] == 255 and img2.getpixel((x,y))[0] == 255):
+                        valor = 255
+                    else :
+                        valor = 0
+                            
+                    img_result.putpixel((x,y), (valor, valor, valor))
+        except :
+            try :
+                #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                len(pixel1)
+                
+                for x in range(tamanho_x):
+                    for y in range(tamanho_y):
+                        if (img1.getpixel((x,y))[0] == 255 and img2.getpixel((x,y)) == 255):
+                            valor = 255
+                        else :
+                            valor = 0
+                                
+                        img_result.putpixel((x,y), (valor, valor, valor))
+            except :
+                try :
+                    #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                    len(pixel2)
+                    
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            if (img1.getpixel((x,y)) == 255 and img2.getpixel((x,y))[0] == 255):
+                                valor = 255
+                            else :
+                                valor = 0
+                                    
+                            img_result.putpixel((x,y), (valor, valor, valor))
+                except :
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            if (img1.getpixel((x,y)) == 255 and img2.getpixel((x,y)) == 255):
+                                valor = 255
+                            else :
+                                valor = 0
+                                    
+                            img_result.putpixel((x,y), (valor, valor, valor))
     
-        img1.save("../img/modificada_operacao_logica.png")
+        img_result.save("../img/modificada_operacao_logica.png")
     
     
     
@@ -372,17 +610,62 @@ class ImageManager():
             tamanho_y = img2.size[1]
         else:
             tamanho_y = img1.size[1]
+            
+        img_result = Image.new("RGB", (tamanho_x, tamanho_y))
 
-        for x in range(tamanho_x):
-            for y in range(tamanho_y):
-                if (img1.getpixel((x,y))[0] == 0 and img2.getpixel((x,y))[0] == 0):
-                    valor = 0
-                else :
-                    valor = 255
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel1 = img1.getpixel((0, 0))
+        pixel2 = img2.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel1)
+            len(pixel2)
+            
+            for x in range(tamanho_x):
+                for y in range(tamanho_y):
+                    if (img1.getpixel((x,y))[0] == 0 and img2.getpixel((x,y))[0] == 0):
+                        valor = 0
+                    else :
+                        valor = 255
+                            
+                    img_result.putpixel((x,y), (valor, valor, valor))
+        except :
+            try :
+                #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                len(pixel1)
+                
+                for x in range(tamanho_x):
+                    for y in range(tamanho_y):
+                        if (img1.getpixel((x,y))[0] == 0 and img2.getpixel((x,y)) == 0):
+                            valor = 0
+                        else :
+                            valor = 255
+                                
+                        img_result.putpixel((x,y), (valor, valor, valor))
+            except :
+                try :
+                    #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                    len(pixel2)
                     
-                img1.putpixel((x,y), (valor,valor,valor))
-
-        img1.save("../img/modificada_operacao_logica.png")
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            if (img1.getpixel((x,y)) == 0 and img2.getpixel((x,y))[0] == 0):
+                                valor = 0
+                            else :
+                                valor = 255
+                                    
+                            img_result.putpixel((x,y), (valor, valor, valor))
+                except :
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            if (img1.getpixel((x,y)) == 0 and img2.getpixel((x,y)) == 0):
+                                valor = 0
+                            else :
+                                valor = 255
+                                    
+                            img_result.putpixel((x,y), (valor, valor, valor))
+    
+        img_result.save("../img/modificada_operacao_logica.png")
     
     
     
@@ -404,85 +687,157 @@ class ImageManager():
             tamanho_y = img2.size[1]
         else:
             tamanho_y = img1.size[1]
+            
+        img_result = Image.new("RGB", (tamanho_x, tamanho_y))
 
-        for x in range(tamanho_x):
-            for y in range(tamanho_y):
-                if (img1.getpixel((x,y))[0] == img2.getpixel((x,y))[0]):
-                    valor = 0
-                else :
-                    valor = 255
-
-                img1.putpixel((x,y), (valor,valor,valor))
-
-        img1.save("../img/modificada_operacao_logica.png")
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel1 = img1.getpixel((0, 0))
+        pixel2 = img2.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel1)
+            len(pixel2)
+            
+            for x in range(tamanho_x):
+                for y in range(tamanho_y):
+                    if (img1.getpixel((x,y))[0] == img2.getpixel((x,y))[0]):
+                        valor = 0
+                    else :
+                        valor = 255
+                            
+                    img_result.putpixel((x,y), (valor, valor, valor))
+        except :
+            try :
+                #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                len(pixel1)
+                
+                for x in range(tamanho_x):
+                    for y in range(tamanho_y):
+                        if (img1.getpixel((x,y))[0] == img2.getpixel((x,y))):
+                            valor = 0
+                        else :
+                            valor = 255
+                                
+                        img_result.putpixel((x,y), (valor, valor, valor))
+            except :
+                try :
+                    #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                    len(pixel2)
+                    
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            if (img1.getpixel((x,y)) == img2.getpixel((x,y))[0]):
+                                valor = 0
+                            else :
+                                valor = 255
+                                    
+                            img_result.putpixel((x,y), (valor, valor, valor))
+                except :
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            if (img1.getpixel((x,y)) == img2.getpixel((x,y))):
+                                valor = 0
+                            else :
+                                valor = 255
+                                    
+                            img_result.putpixel((x,y), (valor, valor, valor))
+    
+        img_result.save("../img/modificada_operacao_logica.png")
         
         
         
     #Metodo que gera outra imagem filtrado com passa alta basico
-    def filtro_passa_alta_basico(self, file_path):
+    def filtro_passa_alta_basico(self, file_path, tamanho_matriz):
         img = Image.open(file_path)
         img.load()
         img_result = Image.new("RGB", (img.size[0], img.size[1]))
         
-        matriz_auxiliar = []
-        for a in range(3):
-            matriz_auxiliar.append([])
-            for b in range(3):
-                matriz_auxiliar[a].append([])
+        #Inicializa a matriz
         
-        matriz_auxiliar[0][0] = -1
-        matriz_auxiliar[0][1] = -1
-        matriz_auxiliar[0][2] = -1
-        matriz_auxiliar[1][0] = -1
-        matriz_auxiliar[1][1] = 8
-        matriz_auxiliar[1][2] = -1
-        matriz_auxiliar[2][0] = -1
-        matriz_auxiliar[2][1] = -1
-        matriz_auxiliar[2][2] = -1
+        matriz = []
+        for i in range(tamanho_matriz):
+            matriz.append([])
+            for j in range(tamanho_matriz):
+                matriz[i].append([])
         
-        for i in range(0, img.size[0]):
-            for j in range(0, img.size[1]):
-                somador_r = 0
-                somador_g = 0
-                somador_b = 0
-                
-                for x in range(-1, 2):
-                    for y in range(-1, 2):
-                        if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
-                            pixel = (0, 0, 0)
-                        else :
-                            var_x = i + x
-                            var_y = j + y
-                            pixel = img.getpixel((var_x, var_y))
-                        
-                        somador_r += pixel[0] * matriz_auxiliar[x + 1][y+ 1]
-                        somador_g += pixel[1] * matriz_auxiliar[x + 1][y+ 1]
-                        somador_b += pixel[2] * matriz_auxiliar[x + 1][y+ 1]
-                
-                somador_r = int(somador_r/9)
-                somador_g = int(somador_g/9)
-                somador_b = int(somador_b/9)
-                
-                if (somador_r < 0) :
+        matriz[0][0] = -1
+        matriz[0][1] = -1
+        matriz[0][2] = -1
+        matriz[1][0] = -1
+        matriz[1][1] = 8
+        matriz[1][2] = -1
+        matriz[2][0] = -1
+        matriz[2][1] = -1
+        matriz[2][2] = -1
+        divisor = 9
+        variacao = 1
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+            
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
                     somador_r = 0
-                else :
-                    if (somador_r > 255) :
-                        somador_r = 255
-                        
-                if (somador_g < 0) :
                     somador_g = 0
-                else :
-                    if (somador_g > 255) :
-                        somador_g = 255
-
-                if (somador_b < 0) :
                     somador_b = 0
-                else :
-                    if (somador_b > 255) :
+                    
+                    for x in range(-variacao, variacao + 1):
+                        for y in range(-variacao, variacao + 1):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = (0, 0, 0)
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador_r += pixel[0] * matriz[x + 1][y+ 1]
+                            somador_g += pixel[1] * matriz[x + 1][y+ 1]
+                            somador_b += pixel[2] * matriz[x + 1][y+ 1]
+                    
+                    somador_r = int(somador_r/divisor)
+                    somador_g = int(somador_g/divisor)
+                    somador_b = int(somador_b/divisor)
+                    
+                    if (somador_r < 0) :
+                        somador_r = 0
+                    elif (somador_r > 255) :
+                        somador_r = 255
+                            
+                    if (somador_g < 0) :
+                        somador_g = 0
+                    elif (somador_g > 255) :
+                        somador_g = 255
+    
+                    if (somador_b < 0) :
+                        somador_b = 0
+                    elif (somador_b > 255) :
                         somador_b = 255
-
-                
-                img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
+    
+                    
+                    img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
+        except :
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    somador = 0
+                    
+                    for x in range(-variacao, variacao + 1):
+                        for y in range(-variacao, variacao + 1):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = 0
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador += pixel * matriz[x + 1][y+ 1]
+                    
+                    somador = int(somador/divisor)
+                    
+                    if (somador < 0) :
+                        somador = 0
+                    elif (somador > 255) :
+                        somador = 255
+                    
+                    img_result.putpixel((i, j), (somador, somador, somador))
         
         img_result.save("../img/modificada_filtro.png")
         

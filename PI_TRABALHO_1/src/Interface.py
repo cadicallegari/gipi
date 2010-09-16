@@ -339,7 +339,7 @@ class Gui():
     def actFiltroExecutar(self, widget):
         imageManager = ImageManager()
         if (self.rbFiltroPassaAlta.get_active()):
-            imageManager.filtro_passa_alta_basico(self.fcFiltroOrigem.get_filename())
+            imageManager.filtro_passa_alta_basico(self.fcFiltroOrigem.get_filename(), 1)
         else:
             if (self.rbFiltroMedia.get_active()):
                 imageManager.filtro_media(self.fcFiltroOrigem.get_filename())
