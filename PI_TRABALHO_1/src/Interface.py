@@ -87,9 +87,8 @@ class Gui():
         self.rbFiltroMedia = gui.get_widget("filtro_radiobutton_media")
         self.rbFiltroMediana = gui.get_widget("filtro_radiobutton_mediana")
         self.rbFiltroHighBoost = gui.get_widget("filtro_radiobutton_highboost")
-        self.rbFiltroSobel = gui.get_widget("filtro_radiobutton_sobel")
-        self.rbFiltroRoberts = gui.get_widget("filtro_radiobutton_roberts")
-        self.rbFiltroPrewitt = gui.get_widget("filtro_radiobutton_prewitt")
+        self.cbFiltro = gui.get_widget("filtro_combobox")
+        
         self.btFiltroExecutar = gui.get_widget("filtro_button_executar")
         self.btFiltroSalvar = gui.get_widget("filtro_button_salvar")
         
@@ -338,25 +337,29 @@ class Gui():
     #Metodo que gera a imagem filtrada
     def actFiltroExecutar(self, widget):
         imageManager = ImageManager()
+        index = self.cbFiltro.get_active()
+        print index
+        if (index == 2) :
+            tamanho_matriz = 7
+        elif (index == 1) :
+            tamanho_matriz = 5
+        else :
+            tamanho_matriz = 3
+
         if (self.rbFiltroPassaAlta.get_active()):
-            imageManager.filtro_passa_alta_basico(self.fcFiltroOrigem.get_filename(), 1)
+            imageManager.filtro_passa_alta_basico(self.fcFiltroOrigem.get_filename(), tamanho_matriz)
+        elif (self.rbFiltroMedia.get_active()):
+            imageManager.filtro_media(self.fcFiltroOrigem.get_filename(), tamanho_matriz)
+        elif (self.rbFiltroMediana.get_active()):
+            imageManager.filtro_mediana(self.fcFiltroOrigem.get_filename(), tamanho_matriz)
+        elif (self.rbFiltroHighBoost.get_active()):
+            imageManager.filtro_high_boost(self.fcFiltroOrigem.get_filename(), tamanho_matriz)
+        elif (self.rbFiltro3x3.get_active()):
+            imageManager.filtro_sobel(self.fcFiltroOrigem.get_filename())
+        elif (self.rbFiltro5x5.get_active()):
+            imageManager.filtro_roberts(self.fcFiltroOrigem.get_filename())
         else:
-            if (self.rbFiltroMedia.get_active()):
-                imageManager.filtro_media(self.fcFiltroOrigem.get_filename())
-            else:
-                if (self.rbFiltroMediana.get_active()):
-                    imageManager.filtro_mediana(self.fcFiltroOrigem.get_filename())
-                else:
-                    if (self.rbFiltroHighBoost.get_active()):
-                        imageManager.filtro_high_boost(self.fcFiltroOrigem.get_filename())
-                    else:
-                        if (self.rbFiltroSobel.get_active()):
-                            imageManager.filtro_sobel(self.fcFiltroOrigem.get_filename())
-                        else:
-                            if (self.rbFiltroRoberts.get_active()):
-                                imageManager.filtro_roberts(self.fcFiltroOrigem.get_filename())
-                            else:
-                                imageManager.filtro_prewitt(self.fcFiltroOrigem.get_filename())
+            imageManager.filtro_prewitt(self.fcFiltroOrigem.get_filename())
                                 
         imagem = self.gui.get_widget('filtro_image_gerada')
         imagem.set_from_file("../img/modificada_filtro.png")

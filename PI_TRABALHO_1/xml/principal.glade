@@ -1488,7 +1488,6 @@
                     <child>
                       <widget class="GtkHButtonBox" id="hbuttonbox17">
                         <property name="visible">True</property>
-                        <property name="layout_style">center</property>
                         <child>
                           <widget class="GtkRadioButton" id="filtro_radiobutton_passa_alta">
                             <property name="label" translatable="yes">Passa Alta</property>
@@ -1553,14 +1552,9 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="filtro_radiobutton_sobel">
-                            <property name="label" translatable="yes">Sobel</property>
+                          <widget class="GtkLabel" id="label25">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
-                            <property name="group">filtro_radiobutton_passa_alta</property>
+                            <property name="label" translatable="yes">M&#xE1;scara</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -1569,14 +1563,12 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="filtro_radiobutton_roberts">
-                            <property name="label" translatable="yes">Roberts</property>
+                          <widget class="GtkComboBox" id="filtro_combobox">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
-                            <property name="group">filtro_radiobutton_passa_alta</property>
+                            <property name="active">0</property>
+                            <property name="items" translatable="yes">3 x 3
+5 x 5
+7 x 7</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -1585,19 +1577,29 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="filtro_radiobutton_prewitt">
-                            <property name="label" translatable="yes">Prewitt</property>
+                          <widget class="GtkLabel" id="label26">
+                            <property name="width_request">5</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
-                            <property name="group">filtro_radiobutton_passa_alta</property>
+                            <property name="label" translatable="yes">A</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">6</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkSpinButton" id="filtro_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="adjustment">1 1 2 0.01 0.01 0.01</property>
+                            <property name="digits">2</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">7</property>
                           </packing>
                         </child>
                       </widget>
@@ -1704,7 +1706,7 @@
             <child>
               <widget class="GtkLabel" id="label22">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Filtros</property>
+                <property name="label" translatable="yes">Filtros Din&#xE2;micos</property>
               </widget>
               <packing>
                 <property name="position">5</property>

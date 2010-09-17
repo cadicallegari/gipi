@@ -174,7 +174,7 @@ class ImageManager():
     def limiarizacao_diversas_variaveis(self, file_path, limiar_t, valor_rgb):
         img = Image.open(file_path)
         img.load()
-        img_result = Image.new("RGB", (img.size[0], img.size[1]))
+        img_result = img.copy()
         
         #Verifica qual o tipo de codec utilizado na criacao da imagem
         pixel = img.getpixel((0, 0))
@@ -753,24 +753,15 @@ class ImageManager():
         img_result = Image.new("RGB", (img.size[0], img.size[1]))
         
         #Inicializa a matriz
-        
         matriz = []
         for i in range(tamanho_matriz):
             matriz.append([])
             for j in range(tamanho_matriz):
-                matriz[i].append([])
+                matriz[i].append(-1)
         
-        matriz[0][0] = -1
-        matriz[0][1] = -1
-        matriz[0][2] = -1
-        matriz[1][0] = -1
-        matriz[1][1] = 8
-        matriz[1][2] = -1
-        matriz[2][0] = -1
-        matriz[2][1] = -1
-        matriz[2][2] = -1
-        divisor = 9
-        variacao = 1
+        variacao = int(tamanho_matriz / 2)
+        matriz[variacao][variacao] = 8
+        divisor = tamanho_matriz * tamanho_matriz;
         
         #Verifica qual o tipo de codec utilizado na criacao da imagem
         pixel = img.getpixel((0, 0))
@@ -843,64 +834,173 @@ class ImageManager():
         
         
         
-    #Metodo que gera outra imagem filtrado com media
-    def filtro_media(self, file_path):
+    #Metodo que gera outra imagem filtrado com a media
+    def filtro_media(self, file_path, tamanho_matriz):
         img = Image.open(file_path)
         img.load()
-        img_result = img
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
         
-        #Percorre todos os pixels da imagem
-        for x in range(1, img.size[0] - 1):
-            for y in range(1, img.size[1] - 1):
-                
-                media_r = 0
-                media_g = 0
-                media_b = 0
-                for z in range(x - 1, x + 2):
-                    for w in range(y - 1, y + 2):
-                        media_r = media_r + img.getpixel((z,w))[0]
-                        media_g = media_g + img.getpixel((z,w))[1]
-                        media_b = media_b + img.getpixel((z,w))[2]
-                        
-                img_result.putpixel((x,y), (int(media_r / 9),
-                                     int(media_g / 9),
-                                     int(media_b / 9)))
+        #Inicializa a matriz
+        matriz = []
+        for i in range(tamanho_matriz):
+            matriz.append([])
+            for j in range(tamanho_matriz):
+                matriz[i].append(1)
+        
+        divisor = tamanho_matriz * tamanho_matriz;
+        variacao = int(tamanho_matriz / 2)
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+            
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    somador_r = 0
+                    somador_g = 0
+                    somador_b = 0
+                    
+                    for x in range(-variacao, variacao + 1):
+                        for y in range(-variacao, variacao + 1):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = (0, 0, 0)
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador_r += pixel[0] * matriz[x + 1][y+ 1]
+                            somador_g += pixel[1] * matriz[x + 1][y+ 1]
+                            somador_b += pixel[2] * matriz[x + 1][y+ 1]
+                    
+                    somador_r = int(somador_r/divisor)
+                    somador_g = int(somador_g/divisor)
+                    somador_b = int(somador_b/divisor)
+                    
+                    if (somador_r < 0) :
+                        somador_r = 0
+                    elif (somador_r > 255) :
+                        somador_r = 255
+                            
+                    if (somador_g < 0) :
+                        somador_g = 0
+                    elif (somador_g > 255) :
+                        somador_g = 255
+    
+                    if (somador_b < 0) :
+                        somador_b = 0
+                    elif (somador_b > 255) :
+                        somador_b = 255
+    
+                    
+                    img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
+        except :
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    somador = 0
+                    
+                    for x in range(-variacao, variacao + 1):
+                        for y in range(-variacao, variacao + 1):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = 0
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador += pixel * matriz[x + 1][y+ 1]
+                    
+                    somador = int(somador/divisor)
+                    
+                    if (somador < 0) :
+                        somador = 0
+                    elif (somador > 255) :
+                        somador = 255
+                    
+                    img_result.putpixel((i, j), (somador, somador, somador))
         
         img_result.save("../img/modificada_filtro.png")
         
         
         
     #Metodo que gera outra imagem filtrado com mediana
-    def filtro_mediana(self, file_path):
+    def filtro_mediana(self, file_path, tamanho_matriz):
         img = Image.open(file_path)
         img.load()
-        img_result = img
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
+
+        variacao = int(tamanho_matriz / 2)
         
-        #Percorre todos os pixels da imagem
-        for x in range(1, img.size[0] - 1):
-            for y in range(1, img.size[1] - 1):
-                
-                mediana_r = []
-                mediana_g = []
-                mediana_b = []
-                for z in range(9):
-                    mediana_r.append(0)
-                    mediana_g.append(0)
-                    mediana_b.append(0)
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
             
-                contador = 0;
-                for z in range(x - 1, x + 2):
-                    for w in range(y - 1, y + 2):
-                        mediana_r[contador] = img.getpixel((z,w))[0]
-                        mediana_g[contador] = img.getpixel((z,w))[1]
-                        mediana_b[contador] = img.getpixel((z,w))[2]
-                        contador = contador + 1
-                        
-                mediana_r.sort()
-                mediana_g.sort()
-                mediana_b.sort()
-                
-                img_result.putpixel((x,y), (mediana_r[4], mediana_g[4], mediana_b[4]))
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    valores_r = []
+                    valores_g = []
+                    valores_b = []
+                    
+                    for x in range(-variacao, variacao + 1):
+                        for y in range(-variacao, variacao + 1):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                valores_r.append(0)
+                                valores_g.append(0)
+                                valores_b.append(0)
+                            else :
+                                valores_r.append(img.getpixel((i + x, j + y))[0])
+                                valores_g.append(img.getpixel((i + x, j + y))[1])
+                                valores_b.append(img.getpixel((i + x, j + y))[2])
+                    
+                    valores_r.sort()
+                    valores_g.sort()
+                    valores_b.sort()
+                    
+                    posicao_meio = int((tamanho_matriz * tamanho_matriz) / 2) 
+                    somador_r = valores_r[posicao_meio]
+                    somador_g = valores_b[posicao_meio] 
+                    somador_b = valores_g[posicao_meio]
+                    
+                    if (somador_r < 0) :
+                        somador_r = 0
+                    elif (somador_r > 255) :
+                        somador_r = 255
+                            
+                    if (somador_g < 0) :
+                        somador_g = 0
+                    elif (somador_g > 255) :
+                        somador_g = 255
+    
+                    if (somador_b < 0) :
+                        somador_b = 0
+                    elif (somador_b > 255) :
+                        somador_b = 255
+    
+                    
+                    img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
+        except :
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    valores = []
+                    
+                    for x in range(-variacao, variacao + 1):
+                        for y in range(-variacao, variacao + 1):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                valores.append(0)
+                            else :
+                                valores.append(img.getpixel((i + x, j + y)))
+                            
+                    valores.sort()
+                    
+                    posicao_meio = int((tamanho_matriz * tamanho_matriz) / 2) 
+                    somador = valores[posicao_meio]
+                    
+                    if (somador < 0) :
+                        somador = 0
+                    elif (somador > 255) :
+                        somador = 255
+                    
+                    img_result.putpixel((i, j), (somador, somador, somador))
         
         img_result.save("../img/modificada_filtro.png")
         
