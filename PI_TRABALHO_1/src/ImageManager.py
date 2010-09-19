@@ -782,9 +782,9 @@ class ImageManager():
                             else :
                                 pixel = img.getpixel((i + x, j + y))
                             
-                            somador_r += pixel[0] * matriz[x + 1][y+ 1]
-                            somador_g += pixel[1] * matriz[x + 1][y+ 1]
-                            somador_b += pixel[2] * matriz[x + 1][y+ 1]
+                            somador_r += pixel[0] * matriz[x + variacao][y + variacao]
+                            somador_g += pixel[1] * matriz[x + variacao][y + variacao]
+                            somador_b += pixel[2] * matriz[x + variacao][y + variacao]
                     
                     somador_r = int(somador_r/divisor)
                     somador_g = int(somador_g/divisor)
@@ -819,7 +819,7 @@ class ImageManager():
                             else :
                                 pixel = img.getpixel((i + x, j + y))
                             
-                            somador += pixel * matriz[x + 1][y+ 1]
+                            somador += pixel * matriz[x + variacao][y + variacao]
                     
                     somador = int(somador/divisor)
                     

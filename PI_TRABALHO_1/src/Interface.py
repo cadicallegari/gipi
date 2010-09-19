@@ -338,7 +338,7 @@ class Gui():
     def actFiltroExecutar(self, widget):
         imageManager = ImageManager()
         index = self.cbFiltro.get_active()
-        print index
+        
         if (index == 2) :
             tamanho_matriz = 7
         elif (index == 1) :
