@@ -80,14 +80,26 @@ class Gui():
         self.rbOpLogicaXor = gui.get_widget("op_log_radiobutton_xor")
         
         
+        #Controles da aba FILTROS DINAMICOS
+        self.fcFiltroDinOrigem = gui.get_widget("filtro_din_filechooserbutton_origem")
+        self.fcFiltroDinDestino = gui.get_widget("filtro_din_filechooserbutton_destino")
+        self.rbFiltroDinPassaAlta = gui.get_widget("filtro_din_radiobutton_passa_alta")
+        self.rbFiltroDinMedia = gui.get_widget("filtro_din_radiobutton_media")
+        self.rbFiltroDinMediana = gui.get_widget("filtro_din_radiobutton_mediana")
+        self.rbFiltroDinHighBoost = gui.get_widget("filtro_din_radiobutton_highboost")
+        self.cbFiltroDin = gui.get_widget("filtro_din_combobox")
+        self.sbFiltroDin = gui.get_widget("filtro_din_spinbutton")
+        
+        self.btFiltroDinExecutar = gui.get_widget("filtro_din_button_executar")
+        self.btFiltroDinSalvar = gui.get_widget("filtro_din_button_salvar")
+        
+        
         #Controles da aba FILTROS
         self.fcFiltroOrigem = gui.get_widget("filtro_filechooserbutton_origem")
         self.fcFiltroDestino = gui.get_widget("filtro_filechooserbutton_destino")
-        self.rbFiltroPassaAlta = gui.get_widget("filtro_radiobutton_passa_alta")
-        self.rbFiltroMedia = gui.get_widget("filtro_radiobutton_media")
-        self.rbFiltroMediana = gui.get_widget("filtro_radiobutton_mediana")
-        self.rbFiltroHighBoost = gui.get_widget("filtro_radiobutton_highboost")
-        self.cbFiltro = gui.get_widget("filtro_combobox")
+        self.rbFiltroSobel = gui.get_widget("filtro_radiobutton_sobel")
+        self.rbFiltroRoberts = gui.get_widget("filtro_radiobutton_roberts")
+        self.rbFiltroPrewitt = gui.get_widget("filtro_radiobutton_prewitt")
         
         self.btFiltroExecutar = gui.get_widget("filtro_button_executar")
         self.btFiltroSalvar = gui.get_widget("filtro_button_salvar")
@@ -131,10 +143,17 @@ class Gui():
         self.btOpLogicaSalvar.connect("clicked", self.actOpLogicaSalvar)
         
         
+        #Eventos da aba FILTROS DINAMICOS
+        self.fcFiltroDinOrigem.connect("file-set", self.actFiltroDinCarregaImagem)
+        self.btFiltroDinExecutar.connect("clicked", self.actFiltroDinExecutar)
+        self.btFiltroDinSalvar.connect("clicked", self.actFiltroDinSalvar)
+        
+        
         #Eventos da aba FILTROS
         self.fcFiltroOrigem.connect("file-set", self.actFiltroCarregaImagem)
         self.btFiltroExecutar.connect("clicked", self.actFiltroExecutar)
         self.btFiltroSalvar.connect("clicked", self.actFiltroSalvar)
+        
         
         self.main_window.show_all()
         self.loop()
@@ -326,7 +345,50 @@ class Gui():
         img.save(self.fcOpLogicaDestino.get_filename() + "/operacao-logica-" + file[len(file) - 1])
 
 
-    #Metodos de FILTROS
+    #Metodos de FILTROS DINAMICOS
+    #Metodo que carrega a imagem no widget de filtro
+    def actFiltroDinCarregaImagem(self, widget):
+        imagem = self.gui.get_widget('filtro_din_image_origem')
+        imagem.set_from_file(self.fcFiltroDinOrigem.get_filename())
+        imagem.show()
+
+
+    #Metodo que gera a imagem filtrada
+    def actFiltroDinExecutar(self, widget):
+        imageManager = ImageManager()
+        index = self.cbFiltroDin.get_active()
+        
+        if (index == 2) :
+            tamanho_matriz = 7
+        elif (index == 1) :
+            tamanho_matriz = 5
+        else :
+            tamanho_matriz = 3
+
+        if (self.rbFiltroDinPassaAlta.get_active()):
+            imageManager.filtro_passa_alta_basico(self.fcFiltroDinOrigem.get_filename(), tamanho_matriz)
+        elif (self.rbFiltroDinMedia.get_active()):
+            imageManager.filtro_media(self.fcFiltroDinOrigem.get_filename(), tamanho_matriz)
+        elif (self.rbFiltroDinMediana.get_active()):
+            imageManager.filtro_mediana(self.fcFiltroDinOrigem.get_filename(), tamanho_matriz)
+        else :
+            valor_a = self.sbFiltroDin.get_value()
+            imageManager.filtro_high_boost(self.fcFiltroDinOrigem.get_filename(), tamanho_matriz, valor_a)
+                                
+        imagem = self.gui.get_widget('filtro_din_image_gerada')
+        imagem.set_from_file("../img/modificada_filtro.png")
+        imagem.show()
+    
+    
+    #Metodo que salva a imagem filtrada
+    def actFiltroDinSalvar(self, widget):
+        img = Image.open("../img/modificada_filtro.png")
+        file = self.fcFiltroDinOrigem.get_filename().split("/")
+        img.save(self.fcFiltroDinDestino.get_filename() + "/filtro-" + file[len(file) - 1])
+
+
+
+    #Metodos de FILTROS 
     #Metodo que carrega a imagem no widget de filtro
     def actFiltroCarregaImagem(self, widget):
         imagem = self.gui.get_widget('filtro_image_origem')
@@ -337,28 +399,12 @@ class Gui():
     #Metodo que gera a imagem filtrada
     def actFiltroExecutar(self, widget):
         imageManager = ImageManager()
-        index = self.cbFiltro.get_active()
-        
-        if (index == 2) :
-            tamanho_matriz = 7
-        elif (index == 1) :
-            tamanho_matriz = 5
-        else :
-            tamanho_matriz = 3
 
-        if (self.rbFiltroPassaAlta.get_active()):
-            imageManager.filtro_passa_alta_basico(self.fcFiltroOrigem.get_filename(), tamanho_matriz)
-        elif (self.rbFiltroMedia.get_active()):
-            imageManager.filtro_media(self.fcFiltroOrigem.get_filename(), tamanho_matriz)
-        elif (self.rbFiltroMediana.get_active()):
-            imageManager.filtro_mediana(self.fcFiltroOrigem.get_filename(), tamanho_matriz)
-        elif (self.rbFiltroHighBoost.get_active()):
-            imageManager.filtro_high_boost(self.fcFiltroOrigem.get_filename(), tamanho_matriz)
-        elif (self.rbFiltro3x3.get_active()):
+        if (self.rbFiltroSobel.get_active()):
             imageManager.filtro_sobel(self.fcFiltroOrigem.get_filename())
-        elif (self.rbFiltro5x5.get_active()):
+        elif (self.rbFiltroRoberts.get_active()):
             imageManager.filtro_roberts(self.fcFiltroOrigem.get_filename())
-        else:
+        else :
             imageManager.filtro_prewitt(self.fcFiltroOrigem.get_filename())
                                 
         imagem = self.gui.get_widget('filtro_image_gerada')

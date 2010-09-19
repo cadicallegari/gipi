@@ -184,8 +184,8 @@
                         <child>
                           <widget class="GtkFileChooserButton" id="escala_filechooserbutton_destino">
                             <property name="visible">True</property>
-                            <property name="create_folders">False</property>
                             <property name="action">select-folder</property>
+                            <property name="create_folders">False</property>
                             <property name="title" translatable="yes"></property>
                           </widget>
                           <packing>
@@ -722,8 +722,8 @@
                         <child>
                           <widget class="GtkFileChooserButton" id="lim_filechooserbutton_destino">
                             <property name="visible">True</property>
-                            <property name="create_folders">False</property>
                             <property name="action">select-folder</property>
+                            <property name="create_folders">False</property>
                             <property name="title" translatable="yes"></property>
                           </widget>
                           <packing>
@@ -1044,8 +1044,8 @@
                         <child>
                           <widget class="GtkFileChooserButton" id="op_arit_filechooserbutton_destino">
                             <property name="visible">True</property>
-                            <property name="create_folders">False</property>
                             <property name="action">select-folder</property>
+                            <property name="create_folders">False</property>
                             <property name="title" translatable="yes"></property>
                           </widget>
                           <packing>
@@ -1354,8 +1354,8 @@
                         <child>
                           <widget class="GtkFileChooserButton" id="op_log_filechooserbutton_destino">
                             <property name="visible">True</property>
-                            <property name="create_folders">False</property>
                             <property name="action">select-folder</property>
+                            <property name="create_folders">False</property>
                             <property name="title" translatable="yes"></property>
                           </widget>
                           <packing>
@@ -1427,7 +1427,7 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="filtro_image_origem">
+                              <widget class="GtkImage" id="filtro_din_image_origem">
                                 <property name="visible">True</property>
                                 <property name="stock">gtk-missing-image</property>
                               </widget>
@@ -1455,7 +1455,7 @@
                         <property name="spacing">3</property>
                         <property name="layout_style">center</property>
                         <child>
-                          <widget class="GtkFileChooserButton" id="filtro_filechooserbutton_origem">
+                          <widget class="GtkFileChooserButton" id="filtro_din_filechooserbutton_origem">
                             <property name="visible">True</property>
                             <property name="create_folders">False</property>
                             <property name="title" translatable="yes">Selecione um Arquivo</property>
@@ -1467,7 +1467,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkButton" id="filtro_button_executar">
+                          <widget class="GtkButton" id="filtro_din_button_executar">
                             <property name="label" translatable="yes">Executar</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -1477,6 +1477,31 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label25">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">M&#xE1;scara</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkComboBox" id="filtro_din_combobox">
+                            <property name="visible">True</property>
+                            <property name="active">0</property>
+                            <property name="items" translatable="yes">3 x 3
+5 x 5
+7 x 7</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                       </widget>
@@ -1489,7 +1514,7 @@
                       <widget class="GtkHButtonBox" id="hbuttonbox17">
                         <property name="visible">True</property>
                         <child>
-                          <widget class="GtkRadioButton" id="filtro_radiobutton_passa_alta">
+                          <widget class="GtkRadioButton" id="filtro_din_radiobutton_passa_alta">
                             <property name="label" translatable="yes">Passa Alta</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -1504,14 +1529,14 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="filtro_radiobutton_media">
+                          <widget class="GtkRadioButton" id="filtro_din_radiobutton_media">
                             <property name="label" translatable="yes">Media</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <property name="group">filtro_radiobutton_passa_alta</property>
+                            <property name="group">filtro_din_radiobutton_passa_alta</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -1520,14 +1545,14 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="filtro_radiobutton_mediana">
+                          <widget class="GtkRadioButton" id="filtro_din_radiobutton_mediana">
                             <property name="label" translatable="yes">Mediana</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <property name="group">filtro_radiobutton_passa_alta</property>
+                            <property name="group">filtro_din_radiobutton_passa_alta</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -1536,44 +1561,19 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="filtro_radiobutton_highboost">
+                          <widget class="GtkRadioButton" id="filtro_din_radiobutton_highboost">
                             <property name="label" translatable="yes">High-Boost</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <property name="group">filtro_radiobutton_passa_alta</property>
+                            <property name="group">filtro_din_radiobutton_passa_alta</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label25">
-                            <property name="visible">True</property>
-                            <property name="label" translatable="yes">M&#xE1;scara</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">4</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkComboBox" id="filtro_combobox">
-                            <property name="visible">True</property>
-                            <property name="active">0</property>
-                            <property name="items" translatable="yes">3 x 3
-5 x 5
-7 x 7</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">5</property>
                           </packing>
                         </child>
                         <child>
@@ -1585,11 +1585,11 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">6</property>
+                            <property name="position">4</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkSpinButton" id="filtro_spinbutton">
+                          <widget class="GtkSpinButton" id="filtro_din_spinbutton">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
@@ -1599,7 +1599,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">7</property>
+                            <property name="position">5</property>
                           </packing>
                         </child>
                       </widget>
@@ -1632,7 +1632,7 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="filtro_image_gerada">
+                              <widget class="GtkImage" id="filtro_din_image_gerada">
                                 <property name="visible">True</property>
                                 <property name="stock">gtk-missing-image</property>
                               </widget>
@@ -1661,10 +1661,10 @@
                         <property name="spacing">3</property>
                         <property name="layout_style">center</property>
                         <child>
-                          <widget class="GtkFileChooserButton" id="filtro_filechooserbutton_destino">
+                          <widget class="GtkFileChooserButton" id="filtro_din_filechooserbutton_destino">
                             <property name="visible">True</property>
-                            <property name="create_folders">False</property>
                             <property name="action">select-folder</property>
+                            <property name="create_folders">False</property>
                             <property name="title" translatable="yes"></property>
                           </widget>
                           <packing>
@@ -1674,7 +1674,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkButton" id="filtro_button_salvar">
+                          <widget class="GtkButton" id="filtro_din_button_salvar">
                             <property name="label" translatable="yes">Salvar</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -1710,6 +1710,247 @@
               </widget>
               <packing>
                 <property name="position">5</property>
+                <property name="tab_fill">False</property>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkHBox" id="hbox2">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkVBox" id="vbox13">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkFrame" id="frame19">
+                        <property name="width_request">600</property>
+                        <property name="height_request">500</property>
+                        <property name="visible">True</property>
+                        <property name="border_width">3</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">in</property>
+                        <child>
+                          <widget class="GtkAlignment" id="alignment18">
+                            <property name="visible">True</property>
+                            <property name="bottom_padding">4</property>
+                            <property name="left_padding">4</property>
+                            <property name="right_padding">4</property>
+                            <child>
+                              <widget class="GtkImage" id="filtro_image_origem">
+                                <property name="visible">True</property>
+                                <property name="stock">gtk-missing-image</property>
+                              </widget>
+                            </child>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label28">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Imagem Original&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="type">label_item</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkHButtonBox" id="hbuttonbox18">
+                        <property name="visible">True</property>
+                        <property name="spacing">3</property>
+                        <property name="layout_style">center</property>
+                        <child>
+                          <widget class="GtkFileChooserButton" id="filtro_filechooserbutton_origem">
+                            <property name="visible">True</property>
+                            <property name="create_folders">False</property>
+                            <property name="title" translatable="yes">Selecione um Arquivo</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkButton" id="filtro_button_executar">
+                            <property name="label" translatable="yes">Executar</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkHButtonBox" id="hbuttonbox19">
+                        <property name="visible">True</property>
+                        <property name="layout_style">center</property>
+                        <child>
+                          <widget class="GtkRadioButton" id="filtro_radiobutton_sobel">
+                            <property name="label" translatable="yes">Sobel</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkRadioButton" id="filtro_radiobutton_roberts">
+                            <property name="label" translatable="yes">Roberts</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">filtro_radiobutton_sobel</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkRadioButton" id="filtro_radiobutton_prewitt">
+                            <property name="label" translatable="yes">Prewitt</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">filtro_radiobutton_sobel</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vbox14">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkFrame" id="frame20">
+                        <property name="width_request">600</property>
+                        <property name="height_request">500</property>
+                        <property name="visible">True</property>
+                        <property name="border_width">3</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">in</property>
+                        <child>
+                          <widget class="GtkAlignment" id="alignment19">
+                            <property name="visible">True</property>
+                            <property name="bottom_padding">4</property>
+                            <property name="left_padding">4</property>
+                            <property name="right_padding">4</property>
+                            <child>
+                              <widget class="GtkImage" id="filtro_image_gerada">
+                                <property name="visible">True</property>
+                                <property name="stock">gtk-missing-image</property>
+                              </widget>
+                            </child>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label31">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Imagem Filtrada&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="type">label_item</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkHButtonBox" id="hbuttonbox20">
+                        <property name="height_request">54</property>
+                        <property name="visible">True</property>
+                        <property name="spacing">3</property>
+                        <property name="layout_style">center</property>
+                        <child>
+                          <widget class="GtkFileChooserButton" id="filtro_filechooserbutton_destino">
+                            <property name="visible">True</property>
+                            <property name="action">select-folder</property>
+                            <property name="create_folders">False</property>
+                            <property name="title" translatable="yes"></property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkButton" id="filtro_button_salvar">
+                            <property name="label" translatable="yes">Salvar</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label27">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Filtros</property>
+              </widget>
+              <packing>
+                <property name="position">6</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>

@@ -760,8 +760,8 @@ class ImageManager():
                 matriz[i].append(-1)
         
         variacao = int(tamanho_matriz / 2)
-        matriz[variacao][variacao] = 8
-        divisor = tamanho_matriz * tamanho_matriz;
+        divisor = tamanho_matriz * tamanho_matriz
+        matriz[variacao][variacao] = divisor - 1
         
         #Verifica qual o tipo de codec utilizado na criacao da imagem
         pixel = img.getpixel((0, 0))
@@ -847,8 +847,8 @@ class ImageManager():
             for j in range(tamanho_matriz):
                 matriz[i].append(1)
         
-        divisor = tamanho_matriz * tamanho_matriz;
         variacao = int(tamanho_matriz / 2)
+        divisor = tamanho_matriz * tamanho_matriz
         
         #Verifica qual o tipo de codec utilizado na criacao da imagem
         pixel = img.getpixel((0, 0))
@@ -869,9 +869,9 @@ class ImageManager():
                             else :
                                 pixel = img.getpixel((i + x, j + y))
                             
-                            somador_r += pixel[0] * matriz[x + 1][y+ 1]
-                            somador_g += pixel[1] * matriz[x + 1][y+ 1]
-                            somador_b += pixel[2] * matriz[x + 1][y+ 1]
+                            somador_r += pixel[0] * matriz[x + variacao][y + variacao]
+                            somador_g += pixel[1] * matriz[x + variacao][y + variacao]
+                            somador_b += pixel[2] * matriz[x + variacao][y + variacao]
                     
                     somador_r = int(somador_r/divisor)
                     somador_g = int(somador_g/divisor)
@@ -906,7 +906,7 @@ class ImageManager():
                             else :
                                 pixel = img.getpixel((i + x, j + y))
                             
-                            somador += pixel * matriz[x + 1][y+ 1]
+                            somador += pixel * matriz[x + variacao][y + variacao]
                     
                     somador = int(somador/divisor)
                     
@@ -926,7 +926,7 @@ class ImageManager():
         img = Image.open(file_path)
         img.load()
         img_result = Image.new("RGB", (img.size[0], img.size[1]))
-
+        
         variacao = int(tamanho_matriz / 2)
         
         #Verifica qual o tipo de codec utilizado na criacao da imagem
@@ -951,7 +951,7 @@ class ImageManager():
                                 valores_r.append(img.getpixel((i + x, j + y))[0])
                                 valores_g.append(img.getpixel((i + x, j + y))[1])
                                 valores_b.append(img.getpixel((i + x, j + y))[2])
-                    
+                            
                     valores_r.sort()
                     valores_g.sort()
                     valores_b.sort()
@@ -1007,29 +1007,46 @@ class ImageManager():
         
         
     #Metodo que gera outra imagem filtrado com high boost
-    def filtro_high_boost(self, file_path):
+    def filtro_high_boost(self, file_path, tamanho_matriz, valor_a):
+        #Gera a imagem com Passa Alta Basico    
+        self.filtro_passa_alta_basico(file_path, tamanho_matriz)
+        
         img = Image.open(file_path)
         img.load()
-        img_result = img
+        img_amplificado = Image.new("RGB", (img.size[0], img.size[1]))
         
-        #Percorre todos os pixels da imagem
-        for x in range(1, img.size[0] - 1):
-            for y in range(1, img.size[1] - 1):
-                
-                media_r = 0
-                media_g = 0
-                media_b = 0
-                for z in range(x - 1, x + 2):
-                    for w in range(y - 1, y + 2):
-                        media_r = media_r + img.getpixel((z,w))[0]
-                        media_g = media_g + img.getpixel((z,w))[1]
-                        media_b = media_b + img.getpixel((z,w))[2]
-                        
-                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
-                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
-                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+        valor_a = valor_a - 1 
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+            
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    pixel = img.getpixel((i, j))
+                    
+                    pixel[0] = int(pixel[0] * valor_a)
+                    pixel[1] = int(pixel[1] * valor_a)
+                    pixel[2] = int(pixel[2] * valor_a)
+                    
+                    img_amplificado.putpixel((i, j), pixel)
+        except :
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    pixel = img.getpixel((i, j))
+                    
+                    pixel = int(pixel * valor_a)
+                    
+                    img_amplificado.putpixel((i, j), (pixel, pixel, pixel))
+                    
+        img_amplificado.save("../img/modificada_amplificado.png")
+                    
+        self.operacao_aritmetica_adicao("../img/modificada_filtro.png", "../img/modificada_amplificado.png")
         
-        img_result.save("../img/modificada_filtro.png")
+        img = Image.open("../img/modificada_operacao_aritmetica.png")
+        img.load()
+        img.save("../img/modificada_filtro.png")
         
         
         
