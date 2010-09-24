@@ -1054,26 +1054,97 @@ class ImageManager():
     def filtro_sobel(self, file_path):
         img = Image.open(file_path)
         img.load()
-        img_result = img
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
+        img_result_h = Image.new("RGB", (img.size[0], img.size[1]))
+        img_result_v = Image.new("RGB", (img.size[0], img.size[1]))
         
-        #Percorre todos os pixels da imagem
-        for x in range(1, img.size[0] - 1):
-            for y in range(1, img.size[1] - 1):
-                
-                media_r = 0
-                media_g = 0
-                media_b = 0
-                for z in range(x - 1, x + 2):
-                    for w in range(y - 1, y + 2):
-                        media_r = media_r + img.getpixel((z,w))[0]
-                        media_g = media_g + img.getpixel((z,w))[1]
-                        media_b = media_b + img.getpixel((z,w))[2]
-                        
-                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
-                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
-                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+        #Inicializa a matriz
+        matriz_h = []
+        matriz_v = []
+        for i in range(3):
+            matriz_h.append([])
+            matriz_v.append([])
+            for j in range(3):
+                matriz_h[i].append(0)
+                matriz_v[i].append(0)
+        
+        matriz_h[0][0] = -1
+        matriz_h[0][1] = -2
+        matriz_h[0][2] = -1
+        matriz_h[2][0] = 1
+        matriz_h[2][1] = 2
+        matriz_h[2][2] = 1
+        
+        matriz_v[0][0] = -1
+        matriz_v[1][0] = -2
+        matriz_v[2][0] = -1
+        matriz_v[0][2] = 1
+        matriz_v[1][2] = 2
+        matriz_v[2][2] = 1
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+            
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    somador_r_h = 0
+                    somador_g_h = 0
+                    somador_b_h = 0
+                    
+                    somador_r_v = 0
+                    somador_g_v = 0
+                    somador_b_v = 0
+                    
+                    for x in range(-1, 2):
+                        for y in range(-1, 2):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = (0, 0, 0)
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador_r_h += pixel[0] * matriz_h[x + 1][y + 1]
+                            somador_g_h += pixel[1] * matriz_h[x + 1][y + 1]
+                            somador_b_h += pixel[2] * matriz_h[x + 1][y + 1]
+                            
+                            somador_r_v += pixel[0] * matriz_v[x + 1][y + 1]
+                            somador_g_v += pixel[1] * matriz_v[x + 1][y + 1]
+                            somador_b_v += pixel[2] * matriz_v[x + 1][y + 1]
+                    
+                    somador_r = abs(somador_r_h) + abs(somador_r_v)
+                    somador_g = abs(somador_g_h) + abs(somador_g_v)
+                    somador_b = abs(somador_b_h) + abs(somador_b_v)    
+                    
+                    img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
+                    img_result_h.putpixel((i, j), (somador_r_h, somador_g_h, somador_b_h))
+                    img_result_v.putpixel((i, j), (somador_r_v, somador_g_v, somador_b_v))
+        except :
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    somador_h = 0
+                    somador_v = 0
+                    
+                    for x in range(-1, 2):
+                        for y in range(-1, 2):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = 0
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador_h += pixel * matriz_h[x + 1][y + 1]
+                            somador_v += pixel * matriz_v[x + 1][y + 1]
+                            
+                    somador = abs(somador_h) + abs(somador_v)
+                    
+                    img_result.putpixel((i, j), (somador, somador, somador))
+                    img_result_h.putpixel((i, j), (somador_h, somador_h, somador_h))
+                    img_result_v.putpixel((i, j), (somador_v, somador_v, somador_v))
         
         img_result.save("../img/modificada_filtro.png")
+        img_result_h.save("../img/modificada_filtro_h.png")
+        img_result_v.save("../img/modificada_filtro_v.png")
         
         
         
@@ -1081,26 +1152,89 @@ class ImageManager():
     def filtro_roberts(self, file_path):
         img = Image.open(file_path)
         img.load()
-        img_result = img
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
+        img_result_h = Image.new("RGB", (img.size[0], img.size[1]))
+        img_result_v = Image.new("RGB", (img.size[0], img.size[1]))
         
-        #Percorre todos os pixels da imagem
-        for x in range(1, img.size[0] - 1):
-            for y in range(1, img.size[1] - 1):
-                
-                media_r = 0
-                media_g = 0
-                media_b = 0
-                for z in range(x - 1, x + 2):
-                    for w in range(y - 1, y + 2):
-                        media_r = media_r + img.getpixel((z,w))[0]
-                        media_g = media_g + img.getpixel((z,w))[1]
-                        media_b = media_b + img.getpixel((z,w))[2]
-                        
-                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
-                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
-                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+        #Inicializa a matriz
+        matriz_h = []
+        matriz_v = []
+        for i in range(2):
+            matriz_h.append([])
+            matriz_v.append([])
+            for j in range(2):
+                matriz_h[i].append(0)
+                matriz_v[i].append(0)
+        
+        matriz_h[0][0] = 1
+        matriz_h[1][1] = -1
+        
+        matriz_v[0][1] = 1
+        matriz_v[1][0] = -1
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+            
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    somador_r_h = 0
+                    somador_g_h = 0
+                    somador_b_h = 0
+                    
+                    somador_r_v = 0
+                    somador_g_v = 0
+                    somador_b_v = 0
+                    
+                    for x in range(0, 2):
+                        for y in range(0, 2):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = (0, 0, 0)
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador_r_h += pixel[0] * matriz_h[x][y]
+                            somador_g_h += pixel[1] * matriz_h[x][y]
+                            somador_b_h += pixel[2] * matriz_h[x][y]
+                            
+                            somador_r_v += pixel[0] * matriz_v[x][y]
+                            somador_g_v += pixel[1] * matriz_v[x][y]
+                            somador_b_v += pixel[2] * matriz_v[x][y]
+                    
+                    somador_r = abs(somador_r_h) + abs(somador_r_v)
+                    somador_g = abs(somador_g_h) + abs(somador_g_v)
+                    somador_b = abs(somador_b_h) + abs(somador_b_v)    
+                    
+                    img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
+                    img_result_h.putpixel((i, j), (somador_r_h, somador_g_h, somador_b_h))
+                    img_result_v.putpixel((i, j), (somador_r_v, somador_g_v, somador_b_v))
+        except :
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    somador_h = 0
+                    somador_v = 0
+                    
+                    for x in range(0, 2):
+                        for y in range(0, 2):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = 0
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador_h += pixel * matriz_h[x][y]
+                            somador_v += pixel * matriz_v[x][y]
+                            
+                    somador = abs(somador_h) + abs(somador_v)
+                    
+                    img_result.putpixel((i, j), (somador, somador, somador))
+                    img_result_h.putpixel((i, j), (somador_h, somador_h, somador_h))
+                    img_result_v.putpixel((i, j), (somador_v, somador_v, somador_v))
         
         img_result.save("../img/modificada_filtro.png")
+        img_result_h.save("../img/modificada_filtro_h.png")
+        img_result_v.save("../img/modificada_filtro_v.png")
         
         
         
@@ -1108,23 +1242,96 @@ class ImageManager():
     def filtro_prewitt(self, file_path):
         img = Image.open(file_path)
         img.load()
-        img_result = img
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
+        img_result_h = Image.new("RGB", (img.size[0], img.size[1]))
+        img_result_v = Image.new("RGB", (img.size[0], img.size[1]))
         
-        #Percorre todos os pixels da imagem
-        for x in range(1, img.size[0] - 1):
-            for y in range(1, img.size[1] - 1):
-                
-                media_r = 0
-                media_g = 0
-                media_b = 0
-                for z in range(x - 1, x + 2):
-                    for w in range(y - 1, y + 2):
-                        media_r = media_r + img.getpixel((z,w))[0]
-                        media_g = media_g + img.getpixel((z,w))[1]
-                        media_b = media_b + img.getpixel((z,w))[2]
-                        
-                img_result.putpixel((x,y), (int(img.getpixel((x,y))[0] - (media_r / 9)),
-                                     int(img.getpixel((x,y))[1] - (media_g / 9)),
-                                     int(img.getpixel((x,y))[2] - (media_b / 9))))
+        #Inicializa a matriz
+        matriz_h = []
+        matriz_v = []
+        for i in range(3):
+            matriz_h.append([])
+            matriz_v.append([])
+            for j in range(3):
+                matriz_h[i].append(0)
+                matriz_v[i].append(0)
+        
+        matriz_h[0][0] = -1
+        matriz_h[0][1] = -1
+        matriz_h[0][2] = -1
+        matriz_h[2][0] = 1
+        matriz_h[2][1] = 1
+        matriz_h[2][2] = 1
+        
+        matriz_v[0][0] = -1
+        matriz_v[1][0] = -1
+        matriz_v[2][0] = -1
+        matriz_v[0][2] = 1
+        matriz_v[1][2] = 1
+        matriz_v[2][2] = 1
+        
+        variacao = 1
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+            
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    somador_r_h = 0
+                    somador_g_h = 0
+                    somador_b_h = 0
+                    
+                    somador_r_v = 0
+                    somador_g_v = 0
+                    somador_b_v = 0
+                    
+                    for x in range(-variacao, variacao + 1):
+                        for y in range(-variacao, variacao + 1):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = (0, 0, 0)
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador_r_h += pixel[0] * matriz_h[x + variacao][y + variacao]
+                            somador_g_h += pixel[1] * matriz_h[x + variacao][y + variacao]
+                            somador_b_h += pixel[2] * matriz_h[x + variacao][y + variacao]
+                            
+                            somador_r_v += pixel[0] * matriz_v[x + variacao][y + variacao]
+                            somador_g_v += pixel[1] * matriz_v[x + variacao][y + variacao]
+                            somador_b_v += pixel[2] * matriz_v[x + variacao][y + variacao]
+                    
+                    somador_r = abs(somador_r_h) + abs(somador_r_v)
+                    somador_g = abs(somador_g_h) + abs(somador_g_v)
+                    somador_b = abs(somador_b_h) + abs(somador_b_v)    
+                    
+                    img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
+                    img_result_h.putpixel((i, j), (somador_r_h, somador_g_h, somador_b_h))
+                    img_result_v.putpixel((i, j), (somador_r_v, somador_g_v, somador_b_v))
+        except :
+            for i in range(0, img.size[0]):
+                for j in range(0, img.size[1]):
+                    somador_h = 0
+                    somador_v = 0
+                    
+                    for x in range(-variacao, variacao + 1):
+                        for y in range(-variacao, variacao + 1):
+                            if ((i + x < 0) or (i + x > img.size[0]-1) or (j + y < 0) or (j + y > img.size[1]-1)) :
+                                pixel = 0
+                            else :
+                                pixel = img.getpixel((i + x, j + y))
+                            
+                            somador_h += pixel * matriz_h[x + variacao][y + variacao]
+                            somador_v += pixel * matriz_v[x + variacao][y + variacao]
+                            
+                    somador = abs(somador_h) + abs(somador_v)
+                    
+                    img_result.putpixel((i, j), (somador, somador, somador))
+                    img_result_h.putpixel((i, j), (somador_h, somador_h, somador_h))
+                    img_result_v.putpixel((i, j), (somador_v, somador_v, somador_v))
         
         img_result.save("../img/modificada_filtro.png")
+        img_result_h.save("../img/modificada_filtro_h.png")
+        img_result_v.save("../img/modificada_filtro_v.png")
