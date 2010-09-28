@@ -250,10 +250,24 @@ class Gui():
         
     
     def actLimiarizacaoPreencherRgb(self, widget, event):
-        imagem = self.gui.get_widget('lim_image_origem')
-        print imagem.get_pixbuf().subpixbuf(1, 1, 1, 1).get_pixels_array()
-        #print event.get_coords()
-
+        img = Image.open(self.fcLimiarizacaoOrigem.get_filename())
+        img.load()
+        
+        pixel_x = event.get_coords()[0] - int((625 - img.size[0]) / 2)
+        pixel_y = event.get_coords()[1] - int((480 - img.size[1]) / 2)
+        
+        if (pixel_x > 0 and pixel_x < img.size[0] and pixel_y > 0 and pixel_y < img.size[1]) :
+            pixel = img.getpixel((pixel_x, pixel_y))
+            try :
+                self.txtLimiarizacaoR.set_text(str(pixel[0]))
+                self.txtLimiarizacaoG.set_text(str(pixel[1]))
+                self.txtLimiarizacaoB.set_text(str(pixel[2]))
+            except : 
+                self.txtLimiarizacaoR.set_text(str(pixel))
+                self.txtLimiarizacaoG.set_text(str(pixel))
+                self.txtLimiarizacaoB.set_text(str(pixel))
+#        463 e 608
+     
 
     #Metodo que gera a imagem limiarizada
     def actLimiarizacaoExecutar(self, widget, arg):
