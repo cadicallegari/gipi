@@ -200,8 +200,8 @@ class ImageManager():
     
     
     
-    #Metodo que efetua a operacao aritmetica ADICAO entre duas imagens gerando uma terceira imagem
-    def operacao_aritmetica_adicao(self, file_path1, file_path2):
+    #Metodo que efetua a operacao aritmetica ADICAO entre duas imagens gerando uma terceira imagem com reescalonamento
+    def operacao_aritmetica_adicao_reescalonamento(self, file_path1, file_path2):
         img1 = Image.open(file_path1)
         img2 = Image.open(file_path2)
         img1.load()
@@ -303,6 +303,139 @@ class ImageManager():
     
     
     
+    #Metodo que efetua a operacao aritmetica ADICAO entre duas imagens gerando uma terceira imagem com truncamento
+    def operacao_aritmetica_adicao_truncamento(self, file_path1, file_path2):
+        img1 = Image.open(file_path1)
+        img2 = Image.open(file_path2)
+        img1.load()
+        img2.load()
+        
+        #Verifica o tamanho menor das imagens em x e em y
+        if (img1.size[0] > img2.size[0]):
+            tamanho_x = img2.size[0]
+        else:
+            tamanho_x = img1.size[0]
+        
+        if (img1.size[1] > img2.size[1]):
+            tamanho_y = img2.size[1]
+        else:
+            tamanho_y = img1.size[1]
+        
+        img_result = Image.new("RGB", (tamanho_x, tamanho_y))
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel1 = img1.getpixel((0, 0))
+        pixel2 = img2.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel1)
+            len(pixel2)
+            
+            for x in range(tamanho_x):
+                for y in range(tamanho_y):
+                    pixel1 = img1.getpixel((x,y))
+                    pixel2 = img2.getpixel((x,y))
+                    
+                    valor_r = pixel1[0] + pixel2[0]
+                    valor_g = pixel1[1] + pixel2[1]
+                    valor_b = pixel1[2] + pixel2[2]
+                    
+                    #Trucamento de valores
+                    if (valor_r > 255) :
+                        valor_r = 255
+                    elif (valor_r < 0) :
+                        valor_r = 0
+                    if (valor_g > 255) :
+                        valor_g = 255
+                    elif (valor_g < 0) :
+                        valor_g = 0
+                    if (valor_b > 255) :
+                        valor_b = 255
+                    elif (valor_b < 0) :
+                        valor_b = 0
+                    
+                    img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+        except :
+            #Caso no minimo uma das imagens nao tenha RGB
+            try :
+                #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                len(pixel1)
+                
+                for x in range(tamanho_x):
+                    for y in range(tamanho_y):
+                        pixel1 = img1.getpixel((x,y))
+                        pixel2 = img2.getpixel((x,y))
+                        
+                        valor_r = pixel1[0] + pixel2
+                        valor_g = pixel1[1] + pixel2
+                        valor_b = pixel1[2] + pixel2
+                        
+                        #Trucamento de valores
+                        if (valor_r > 255) :
+                            valor_r = 255
+                        elif (valor_r < 0) :
+                            valor_r = 0
+                        if (valor_g > 255) :
+                            valor_g = 255
+                        elif (valor_g < 0) :
+                            valor_g = 0
+                        if (valor_b > 255) :
+                            valor_b = 255
+                        elif (valor_b < 0) :
+                            valor_b = 0
+                        
+                        img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+            except :
+                #Caso no minimo uma das imagens nao tenha RGB
+                try :
+                    #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                    len(pixel2)
+                    
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            pixel1 = img1.getpixel((x,y))
+                            pixel2 = img2.getpixel((x,y))
+                            
+                            valor_r = pixel1 + pixel2[0]
+                            valor_g = pixel1 + pixel2[1]
+                            valor_b = pixel1 + pixel2[2]
+                            
+                            #Trucamento de valores
+                            if (valor_r > 255) :
+                                valor_r = 255
+                            elif (valor_r < 0) :
+                                valor_r = 0
+                            if (valor_g > 255) :
+                                valor_g = 255
+                            elif (valor_g < 0) :
+                                valor_g = 0
+                            if (valor_b > 255) :
+                                valor_b = 255
+                            elif (valor_b < 0) :
+                                valor_b = 0
+                            
+                            img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
+                except :
+                    #Caso no minimo de as duas nao terem vao RGB
+                    for x in range(tamanho_x):
+                        for y in range(tamanho_y):
+                            pixel1 = img1.getpixel((x,y))
+                            pixel2 = img2.getpixel((x,y))
+                            
+                            valor = pixel1 + pixel2
+                            
+                            #Trucamento de valores
+                            if (valor > 255) :
+                                valor = 255
+                            elif (valor < 0) :
+                                valor = 0
+                            
+                            img_result.putpixel((x,y), (valor, valor, valor))
+
+        img_result.save("../img/modificada_operacao_aritmetica.png")
+        
+        
+        
     #Metodo que efetua a operacao aritmetica SUBTRACAO entre duas imagens gerando uma terceira imagem
     def operacao_aritmetica_subtracao(self, file_path1, file_path2):
         img1 = Image.open(file_path1)
@@ -1042,7 +1175,7 @@ class ImageManager():
                     
         img_amplificado.save("../img/modificada_amplificado.png")
                     
-        self.operacao_aritmetica_adicao("../img/modificada_filtro.png", "../img/modificada_amplificado.png")
+        self.operacao_aritmetica_adicao_truncamento("../img/modificada_filtro.png", "../img/modificada_amplificado.png")
         
         img = Image.open("../img/modificada_operacao_aritmetica.png")
         img.load()

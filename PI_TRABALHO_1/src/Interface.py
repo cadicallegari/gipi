@@ -97,12 +97,16 @@ class Gui():
         #Controles da aba FILTROS
         self.fcFiltroOrigem = gui.get_widget("filtro_filechooserbutton_origem")
         self.fcFiltroDestino = gui.get_widget("filtro_filechooserbutton_destino")
+        self.fcFiltroDestino_h = gui.get_widget("filtro_filechooserbutton_destino_h")
+        self.fcFiltroDestino_v = gui.get_widget("filtro_filechooserbutton_destino_v")
         self.rbFiltroSobel = gui.get_widget("filtro_radiobutton_sobel")
         self.rbFiltroRoberts = gui.get_widget("filtro_radiobutton_roberts")
         self.rbFiltroPrewitt = gui.get_widget("filtro_radiobutton_prewitt")
         
         self.btFiltroExecutar = gui.get_widget("filtro_button_executar")
         self.btFiltroSalvar = gui.get_widget("filtro_button_salvar")
+        self.btFiltroSalvar_h = gui.get_widget("filtro_button_salvar_h")
+        self.btFiltroSalvar_v = gui.get_widget("filtro_button_salvar_v")
         
         
         #Associa os eventos aos controles
@@ -153,6 +157,8 @@ class Gui():
         self.fcFiltroOrigem.connect("file-set", self.actFiltroCarregaImagem)
         self.btFiltroExecutar.connect("clicked", self.actFiltroExecutar)
         self.btFiltroSalvar.connect("clicked", self.actFiltroSalvar)
+        self.btFiltroSalvar_h.connect("clicked", self.actFiltroSalvarHorizontal)
+        self.btFiltroSalvar_v.connect("clicked", self.actFiltroSalvarVertical)
         
         
         self.main_window.show_all()
@@ -283,7 +289,7 @@ class Gui():
         imageManager = ImageManager()
         #Caso a operacao seja de ADICAO
         if (self.rbOpAritmeticaAdicao.get_active()):
-            imageManager.operacao_aritmetica_adicao(self.fcOpAritmeticaOrigem1.get_filename(), self.fcOpAritmeticaOrigem2.get_filename())
+            imageManager.operacao_aritmetica_adicao_reescalonamento(self.fcOpAritmeticaOrigem1.get_filename(), self.fcOpAritmeticaOrigem2.get_filename())
         else:
             #Caso a operacao seja de SUBTRACAO
             if (self.rbOpAritmeticaSubtracao.get_active()):
@@ -410,6 +416,12 @@ class Gui():
         imagem = self.gui.get_widget('filtro_image_gerada')
         imagem.set_from_file("../img/modificada_filtro.png")
         imagem.show()
+        imagem_h = self.gui.get_widget('filtro_image_gerada_h')
+        imagem_h.set_from_file("../img/modificada_filtro_h.png")
+        imagem_h.show()
+        imagem_v = self.gui.get_widget('filtro_image_gerada_v')
+        imagem_v.set_from_file("../img/modificada_filtro_v.png")
+        imagem_v.show()
     
     
     #Metodo que salva a imagem filtrada
@@ -419,6 +431,21 @@ class Gui():
         img.save(self.fcFiltroDestino.get_filename() + "/filtro-" + file[len(file) - 1])
 
 
+    #Metodo que salva a imagem filtrada
+    def actFiltroSalvarHorizontal(self, widget):
+        img = Image.open("../img/modificada_filtro_h.png")
+        file = self.fcFiltroOrigem.get_filename().split("/")
+        img.save(self.fcFiltroDestino_h.get_filename() + "/filtro_h-" + file[len(file) - 1])
+
+
+    #Metodo que salva a imagem filtrada
+    def actFiltroSalvarVertical(self, widget):
+        img = Image.open("../img/modificada_filtro_v.png")
+        file = self.fcFiltroOrigem.get_filename().split("/")
+        img.save(self.fcFiltroDestino_v.get_filename() + "/filtro_v-" + file[len(file) - 1])
+        
+        
+        
 class Sobre():
     
     
