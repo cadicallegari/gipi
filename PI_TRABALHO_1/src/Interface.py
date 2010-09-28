@@ -52,10 +52,11 @@ class Gui():
         self.btLimiarizacaoSalvar = gui.get_widget("lim_button_salvar")
         self.rbLimiarizacaoGlobal = gui.get_widget("lim_radiobutton_global")
         self.rbLimiarizacaoVariaveis = gui.get_widget("lim_radiobutton_variaveis")
-        self.hsLimiarizacao = gui.get_widget("lim_hscale");
-        self.txtLimiarizacaoR = gui.get_widget("lim_txt_r");
-        self.txtLimiarizacaoG = gui.get_widget("lim_txt_g");
-        self.txtLimiarizacaoB = gui.get_widget("lim_txt_b");
+        self.evLimiarizacao = gui.get_widget("lim_eventos")
+        self.hsLimiarizacao = gui.get_widget("lim_hscale")
+        self.txtLimiarizacaoR = gui.get_widget("lim_txt_r")
+        self.txtLimiarizacaoG = gui.get_widget("lim_txt_g")
+        self.txtLimiarizacaoB = gui.get_widget("lim_txt_b")
         
         
         #Controles da aba OPERACOES ARITMETICAS
@@ -130,6 +131,7 @@ class Gui():
         #Eventos da aba LIMIARIZACAO
         self.fcLimiarizacaoOrigem.connect("file-set", self.actLimiarizacaoCarregaImagem)
         self.btLimiarizacaoSalvar.connect("clicked", self.actLimiarizacaoSalvar)
+        self.evLimiarizacao.connect("button-press-event", self.actLimiarizacaoPreencherRgb)
         self.hsLimiarizacao.connect("button-release-event", self.actLimiarizacaoExecutar)
         
         
@@ -245,6 +247,12 @@ class Gui():
         imagem = self.gui.get_widget('lim_image_origem')
         imagem.set_from_file(self.fcLimiarizacaoOrigem.get_filename())
         imagem.show()
+        
+    
+    def actLimiarizacaoPreencherRgb(self, widget, event):
+        imagem = self.gui.get_widget('lim_image_origem')
+        print imagem.get_pixbuf().subpixbuf(1, 1, 1, 1).get_pixels_array()
+        #print event.get_coords()
 
 
     #Metodo que gera a imagem limiarizada

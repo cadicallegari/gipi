@@ -73,9 +73,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="escala_image_origem">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow16">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport16">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="escala_image_origem">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -154,9 +168,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="escala_image_gerada">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow17">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport17">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="escala_image_gerada">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -253,9 +281,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="hist_image_origem">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow15">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport15">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="hist_image_origem">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -506,9 +548,28 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="lim_image_origem">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow13">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport13">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkEventBox" id="lim_eventos">
+                                        <property name="visible">True</property>
+                                        <child>
+                                          <widget class="GtkImage" id="lim_image_origem">
+                                            <property name="visible">True</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -692,9 +753,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="lim_image_gerada">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow14">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport14">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="lim_image_gerada">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -811,9 +886,23 @@
                                 <property name="left_padding">4</property>
                                 <property name="right_padding">4</property>
                                 <child>
-                                  <widget class="GtkImage" id="op_arit_image1">
+                                  <widget class="GtkScrolledWindow" id="scrolledwindow10">
                                     <property name="visible">True</property>
-                                    <property name="stock">gtk-missing-image</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hscrollbar_policy">automatic</property>
+                                    <property name="vscrollbar_policy">automatic</property>
+                                    <child>
+                                      <widget class="GtkViewport" id="viewport10">
+                                        <property name="visible">True</property>
+                                        <property name="resize_mode">queue</property>
+                                        <child>
+                                          <widget class="GtkImage" id="op_arit_image1">
+                                            <property name="visible">True</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                    </child>
                                   </widget>
                                 </child>
                               </widget>
@@ -845,9 +934,23 @@
                                 <property name="left_padding">4</property>
                                 <property name="right_padding">4</property>
                                 <child>
-                                  <widget class="GtkImage" id="op_arit_image2">
+                                  <widget class="GtkScrolledWindow" id="scrolledwindow11">
                                     <property name="visible">True</property>
-                                    <property name="stock">gtk-missing-image</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hscrollbar_policy">automatic</property>
+                                    <property name="vscrollbar_policy">automatic</property>
+                                    <child>
+                                      <widget class="GtkViewport" id="viewport11">
+                                        <property name="visible">True</property>
+                                        <property name="resize_mode">queue</property>
+                                        <child>
+                                          <widget class="GtkImage" id="op_arit_image2">
+                                            <property name="visible">True</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                    </child>
                                   </widget>
                                 </child>
                               </widget>
@@ -1014,9 +1117,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="op_arit_imagem_gerada">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow12">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport12">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="op_arit_imagem_gerada">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1121,9 +1238,23 @@
                                 <property name="left_padding">4</property>
                                 <property name="right_padding">4</property>
                                 <child>
-                                  <widget class="GtkImage" id="op_log_image1">
+                                  <widget class="GtkScrolledWindow" id="scrolledwindow7">
                                     <property name="visible">True</property>
-                                    <property name="stock">gtk-missing-image</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hscrollbar_policy">automatic</property>
+                                    <property name="vscrollbar_policy">automatic</property>
+                                    <child>
+                                      <widget class="GtkViewport" id="viewport7">
+                                        <property name="visible">True</property>
+                                        <property name="resize_mode">queue</property>
+                                        <child>
+                                          <widget class="GtkImage" id="op_log_image1">
+                                            <property name="visible">True</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                    </child>
                                   </widget>
                                 </child>
                               </widget>
@@ -1155,9 +1286,23 @@
                                 <property name="left_padding">4</property>
                                 <property name="right_padding">4</property>
                                 <child>
-                                  <widget class="GtkImage" id="op_log_image2">
+                                  <widget class="GtkScrolledWindow" id="scrolledwindow8">
                                     <property name="visible">True</property>
-                                    <property name="stock">gtk-missing-image</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hscrollbar_policy">automatic</property>
+                                    <property name="vscrollbar_policy">automatic</property>
+                                    <child>
+                                      <widget class="GtkViewport" id="viewport8">
+                                        <property name="visible">True</property>
+                                        <property name="resize_mode">queue</property>
+                                        <child>
+                                          <widget class="GtkImage" id="op_log_image2">
+                                            <property name="visible">True</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                    </child>
                                   </widget>
                                 </child>
                               </widget>
@@ -1324,9 +1469,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="op_log_imagem_gerada">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow9">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport9">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="op_log_imagem_gerada">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1427,9 +1586,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="filtro_din_image_origem">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow5">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport5">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="filtro_din_image_origem">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1632,9 +1805,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="filtro_din_image_gerada">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow6">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport6">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="filtro_din_image_gerada">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1736,9 +1923,24 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="filtro_image_origem">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow1">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="window_placement_set">True</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport1">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="filtro_image_origem">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1873,9 +2075,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="filtro_image_gerada">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow2">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport2">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="filtro_image_gerada">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1956,9 +2172,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="filtro_image_gerada_h">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow3">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport3">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="filtro_image_gerada_h">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -2040,9 +2270,23 @@
                             <property name="left_padding">4</property>
                             <property name="right_padding">4</property>
                             <child>
-                              <widget class="GtkImage" id="filtro_image_gerada_v">
+                              <widget class="GtkScrolledWindow" id="scrolledwindow4">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <child>
+                                  <widget class="GtkViewport" id="viewport4">
+                                    <property name="visible">True</property>
+                                    <property name="resize_mode">queue</property>
+                                    <child>
+                                      <widget class="GtkImage" id="filtro_image_gerada_v">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                             </child>
                           </widget>

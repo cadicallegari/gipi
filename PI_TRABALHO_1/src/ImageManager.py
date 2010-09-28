@@ -36,8 +36,8 @@ class ImageManager():
                     media = int((pixel[0] + pixel[1] + pixel[2]) / 3)
                     img_result.putpixel((x, y), (media, media, media))
         except :
-            #Caso a imagem nao tenha RGB, nao e necessario efetuar a media, pois a imagem gerada e igual a imagem origem
-            pass
+            #Caso a imagem nao tenha RGB
+            img_result = img
         
         img_result.save("../img/modificada_escala_cinza.png")
 
