@@ -253,8 +253,18 @@ class Gui():
         img = Image.open(self.fcLimiarizacaoOrigem.get_filename())
         img.load()
         
-        pixel_x = event.get_coords()[0] - int((625 - img.size[0]) / 2)
-        pixel_y = event.get_coords()[1] - int((480 - img.size[1]) / 2)
+        if (img.size[0] < 610 and img.size[1] < 481) :
+            pixel_x = event.get_coords()[0] - int((625 - img.size[0]) / 2)
+            pixel_y = event.get_coords()[1] - int((480 - img.size[1]) / 2)
+        elif (img.size[0] < 610) :
+            pixel_x = event.get_coords()[0] - int((625 - img.size[0]) / 2)
+            pixel_y = event.get_coords()[1]
+        elif (img.size[1] < 481) :
+            pixel_x = event.get_coords()[0]
+            pixel_y = event.get_coords()[1] - int((480 - img.size[1]) / 2)
+        else :
+            pixel_x = event.get_coords()[0]
+            pixel_y = event.get_coords()[1]
         
         if (pixel_x > 0 and pixel_x < img.size[0] and pixel_y > 0 and pixel_y < img.size[1]) :
             pixel = img.getpixel((pixel_x, pixel_y))
@@ -266,9 +276,7 @@ class Gui():
                 self.txtLimiarizacaoR.set_text(str(pixel))
                 self.txtLimiarizacaoG.set_text(str(pixel))
                 self.txtLimiarizacaoB.set_text(str(pixel))
-#        463 e 608
-     
-
+ 
     #Metodo que gera a imagem limiarizada
     def actLimiarizacaoExecutar(self, widget, arg):
         imageManager = ImageManager()
