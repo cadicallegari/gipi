@@ -90,7 +90,6 @@ class Gui():
         self.rbFiltroDinHighBoost = gui.get_widget("filtro_din_radiobutton_highboost")
         self.cbFiltroDin = gui.get_widget("filtro_din_combobox")
         self.sbFiltroDin = gui.get_widget("filtro_din_spinbutton")
-        
         self.btFiltroDinExecutar = gui.get_widget("filtro_din_button_executar")
         self.btFiltroDinSalvar = gui.get_widget("filtro_din_button_salvar")
         
@@ -103,11 +102,24 @@ class Gui():
         self.rbFiltroSobel = gui.get_widget("filtro_radiobutton_sobel")
         self.rbFiltroRoberts = gui.get_widget("filtro_radiobutton_roberts")
         self.rbFiltroPrewitt = gui.get_widget("filtro_radiobutton_prewitt")
-        
         self.btFiltroExecutar = gui.get_widget("filtro_button_executar")
         self.btFiltroSalvar = gui.get_widget("filtro_button_salvar")
         self.btFiltroSalvar_h = gui.get_widget("filtro_button_salvar_h")
         self.btFiltroSalvar_v = gui.get_widget("filtro_button_salvar_v")
+
+
+        #Controles da aba OUTROS
+        self.fcOutrosOrigem = gui.get_widget("out_filechooserbutton_origem")
+        self.fcOutrosDestino = gui.get_widget("out_filechooserbutton_destino")
+        self.btOutrosSalvar = gui.get_widget("out_button_salvar")
+        self.rbOutrosCrescimento = gui.get_widget("out_radiobutton_crescimento")
+        self.rbOutrosDeteccao = gui.get_widget("out_radiobutton_deteccao")
+        self.evOutros = gui.get_widget("out_eventos")
+        self.hsOutros = gui.get_widget("out_hscale")
+        self.txtOutrosR = gui.get_widget("out_txt_r")
+        self.txtOutrosG = gui.get_widget("out_txt_g")
+        self.txtOutrosB = gui.get_widget("out_txt_b")
+                
         
         
         #Associa os eventos aos controles
@@ -163,6 +175,14 @@ class Gui():
         self.btFiltroSalvar_v.connect("clicked", self.actFiltroSalvarVertical)
         
         
+        #Eventos da aba OUTROS
+        self.fcOutrosOrigem.connect("file-set", self.actOutrosCarregaImagem)
+        self.btOutrosSalvar.connect("clicked", self.actOutrosSalvar)
+        self.evOutros.connect("button-press-event", self.actOutrosPreencherRgb)
+        self.hsOutros.connect("button-release-event", self.actOutrosExecutar)
+        
+        
+        
         self.main_window.show_all()
         self.loop()
 
@@ -185,7 +205,9 @@ class Gui():
         Sobre()
     
     
+    
     #Metodos de ESCALA DE CINZA
+    
     #Metodo que carrega a imagem no widget de escala de cinza
     def actEscalaCinzaCarregaImagem(self, widget):
         imagem = self.gui.get_widget('escala_image_origem')
@@ -209,7 +231,9 @@ class Gui():
         img.save(self.fcEscalaDestino.get_filename() + "/escala-cinza-" + file[len(file) - 1])
 
 
+
     #Metodos de HISTOGRAMAS
+    
     #Metodo que carrega a imagem no widget de histograma
     def actHistogramaCarregaImagem(self, widget):
         imagem = self.gui.get_widget('hist_image_origem')
@@ -241,14 +265,16 @@ class Gui():
         imagem.show()
 
 
+
     #Metodos de LIMIARIZACAO
+    
     #Metodo que carrega a imagem no widget de limiarizacao
     def actLimiarizacaoCarregaImagem(self, widget):
         imagem = self.gui.get_widget('lim_image_origem')
         imagem.set_from_file(self.fcLimiarizacaoOrigem.get_filename())
         imagem.show()
         
-    
+    #Metodo que preenche o valor RGB do pixel clicado na imagem
     def actLimiarizacaoPreencherRgb(self, widget, event):
         img = Image.open(self.fcLimiarizacaoOrigem.get_filename())
         img.load()
@@ -299,7 +325,9 @@ class Gui():
         img.save(self.fcLimiarizacaoDestino.get_filename() + "/limiarizacao-" + file[len(file) - 1])
         
 
+
     #Metodos de OPERACOES ARITMETICAS
+    
     #Metodo que carrega a imagem no widget de operacoes aritmeticas
     def actOpAritmeticaCarregaImagem1(self, widget):
         imagem = self.gui.get_widget('op_arit_image1')
@@ -340,7 +368,9 @@ class Gui():
         img.save(self.fcOpAritmeticaDestino.get_filename() + "/operacao-aritmetica-" + file[len(file) - 1])
         
         
+        
     #Metodos de OPERACOES LOGICAS
+    
     #Metodo que carrega a imagem no widget de operacoes logicas
     def actOpLogicaCarregaImagem1(self, widget):
         imagem = self.gui.get_widget('op_log_image1')
@@ -381,7 +411,9 @@ class Gui():
         img.save(self.fcOpLogicaDestino.get_filename() + "/operacao-logica-" + file[len(file) - 1])
 
 
+
     #Metodos de FILTROS DINAMICOS
+    
     #Metodo que carrega a imagem no widget de filtro
     def actFiltroDinCarregaImagem(self, widget):
         imagem = self.gui.get_widget('filtro_din_image_origem')
@@ -425,6 +457,7 @@ class Gui():
 
 
     #Metodos de FILTROS 
+    
     #Metodo que carrega a imagem no widget de filtro
     def actFiltroCarregaImagem(self, widget):
         imagem = self.gui.get_widget('filtro_image_origem')
@@ -474,6 +507,68 @@ class Gui():
         file = self.fcFiltroOrigem.get_filename().split("/")
         img.save(self.fcFiltroDestino_v.get_filename() + "/filtro_v-" + file[len(file) - 1])
         
+        
+        
+    #Metodos de OUTROS
+    
+    #Metodo que carrega a imagem no widget de outros
+    def actOutrosCarregaImagem(self, widget):
+        imagem = self.gui.get_widget('out_image_origem')
+        imagem.set_from_file(self.fcOutrosOrigem.get_filename())
+        imagem.show()
+        
+    #Metodo que preenche o valor RGB do pixel clicado na imagem
+    def actOutrosPreencherRgb(self, widget, event):
+        img = Image.open(self.fcOutrosOrigem.get_filename())
+        img.load()
+        
+        if (img.size[0] < 610 and img.size[1] < 481) :
+            pixel_x = event.get_coords()[0] - int((625 - img.size[0]) / 2)
+            pixel_y = event.get_coords()[1] - int((480 - img.size[1]) / 2)
+        elif (img.size[0] < 610) :
+            pixel_x = event.get_coords()[0] - int((625 - img.size[0]) / 2)
+            pixel_y = event.get_coords()[1]
+        elif (img.size[1] < 481) :
+            pixel_x = event.get_coords()[0]
+            pixel_y = event.get_coords()[1] - int((480 - img.size[1]) / 2)
+        else :
+            pixel_x = event.get_coords()[0]
+            pixel_y = event.get_coords()[1]
+        
+        self.pixel_x = pixel_x
+        self.pixel_y = pixel_y
+        
+        if (pixel_x > 0 and pixel_x < img.size[0] and pixel_y > 0 and pixel_y < img.size[1]) :
+            pixel = img.getpixel((pixel_x, pixel_y))
+            try :
+                self.txtOutrosR.set_text(str(pixel[0]))
+                self.txtOutrosG.set_text(str(pixel[1]))
+                self.txtOutrosB.set_text(str(pixel[2]))
+            except : 
+                self.txtOutrosR.set_text(str(pixel))
+                self.txtOutrosG.set_text(str(pixel))
+                self.txtOutrosB.set_text(str(pixel))
+ 
+    #Metodo que gera a imagem outros
+    def actOutrosExecutar(self, widget, arg):
+        imageManager = ImageManager()
+        #Caso a opcao seja CRESCIMENTO DE REGIOES
+        if (self.rbOutrosCrescimento.get_active()):
+            imageManager.outros_crescimento_regioes(self.fcOutrosOrigem.get_filename(), self.hsOutros.get_value(), [int(self.pixel_x), int(self.pixel_y)])
+        #Caso a opcao seja DETECCAO DE BORDAS
+        else:
+            imageManager.outros_deteccao_de_bordas(self.fcOutrosOrigem.get_filename(), self.hsOutros.get_value())
+            
+        imagem = self.gui.get_widget('out_image_gerada')
+        imagem.set_from_file("../img/modificada_outros.png")
+        imagem.show()
+    
+    
+    #Metodo que salva a imagem limiarizada
+    def actOutrosSalvar(self, widget):
+        img = Image.open("../img/modificada_outros.png")
+        file = self.fcOutrosOrigem.get_filename().split("/")
+        img.save(self.fcOutrosDestino.get_filename() + "/outros-" + file[len(file) - 1])
         
         
 class Sobre():

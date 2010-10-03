@@ -35,7 +35,7 @@ class ImageManager():
                     pixel = img.getpixel((x, y))
                     media = int((pixel[0] + pixel[1] + pixel[2]) / 3)
                     img_result.putpixel((x, y), (media, media, media))
-        except :
+        except TypeError :
             #Caso a imagem nao tenha RGB
             img_result = img
         
@@ -67,7 +67,7 @@ class ImageManager():
                 for y in range(img.size[1]):
                     pixel = img.getpixel((x,y))
                     escala_cinza[pixel[0]] += 1
-        except :
+        except TypeError :
             #Caso a imagem nao tenha RGB
             #Percorre todos os pixels da imagem incrementando uma vez na posicao do valor do pixel
             #img[0] X e img[1] Y
@@ -116,7 +116,7 @@ class ImageManager():
                     red[pixel[0]] += 1
                     green[pixel[1]] += 1
                     blue[pixel[2]] += 1
-        except :
+        except TypeError :
             #Caso a imagem nao tenha RGB
             #Percorre todos os pixels da imagem incrementando uma vez na posicao do valor do pixel
             #img[0] X e img[1] Y
@@ -155,7 +155,7 @@ class ImageManager():
                     else:
                         valor = 255
                     img_result.putpixel((x,y), (valor, valor, valor))
-        except :
+        except TypeError :
             #Caso a imagem nao tenha RGB
             #Percorre todos os pixels da imagem e compara com o limiar t
             for x in range(img.size[0]):
@@ -192,7 +192,7 @@ class ImageManager():
                     if (distancia > limiar_t):
                         img_result.putpixel((x,y), (0, 0, 0))
                         
-        except :
+        except TypeError :
             #Caso a imagem nao tenha RGB, nao se pode fazer diversas variaveis, pois deve ser uma imagem colorida
             pass
         
@@ -243,7 +243,7 @@ class ImageManager():
                     valor_b = self.reescalonamento_de_valores(valor_b, 510, 0)
                     
                     img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-        except :
+        except TypeError :
             #Caso no minimo uma das imagens nao tenha RGB
             try :
                 #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
@@ -264,7 +264,7 @@ class ImageManager():
                         valor_b = self.reescalonamento_de_valores(valor_b, 510, 0)
                         
                         img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-            except :
+            except TypeError :
                 #Caso no minimo uma das imagens nao tenha RGB
                 try :
                     #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
@@ -285,7 +285,7 @@ class ImageManager():
                             valor_b = self.reescalonamento_de_valores(valor_b, 510, 0)
                             
                             img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-                except :
+                except TypeError :
                     #Caso no minimo de as duas nao terem vao RGB
                     for x in range(tamanho_x):
                         for y in range(tamanho_y):
@@ -355,7 +355,7 @@ class ImageManager():
                         valor_b = 0
                     
                     img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-        except :
+        except TypeError :
             #Caso no minimo uma das imagens nao tenha RGB
             try :
                 #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
@@ -385,7 +385,7 @@ class ImageManager():
                             valor_b = 0
                         
                         img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-            except :
+            except TypeError :
                 #Caso no minimo uma das imagens nao tenha RGB
                 try :
                     #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
@@ -415,7 +415,7 @@ class ImageManager():
                                 valor_b = 0
                             
                             img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-                except :
+                except TypeError :
                     #Caso no minimo de as duas nao terem vao RGB
                     for x in range(tamanho_x):
                         for y in range(tamanho_y):
@@ -479,7 +479,7 @@ class ImageManager():
                     valor_b = self.reescalonamento_de_valores(valor_b, 255, -255)
                     
                     img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-        except :
+        except TypeError :
             #Caso no minimo uma das imagens nao tenha RGB
             try :
                 #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
@@ -500,7 +500,7 @@ class ImageManager():
                         valor_b = self.reescalonamento_de_valores(valor_b, 255, -255)
                         
                         img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-            except :
+            except TypeError :
                 #Caso no minimo uma das imagens nao tenha RGB
                 try :
                     #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
@@ -521,7 +521,7 @@ class ImageManager():
                             valor_b = self.reescalonamento_de_valores(valor_b, 255, -255)
                             
                             img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-                except :
+                except TypeError :
                     #Caso no minimo de as duas nao terem vao RGB
                     for x in range(tamanho_x):
                         for y in range(tamanho_y):
@@ -582,7 +582,7 @@ class ImageManager():
                     valor_b = self.reescalonamento_de_valores(valor_b, 65025, 0)
                     
                     img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-        except :
+        except TypeError :
             #Caso no minimo uma das imagens nao tenha RGB
             try :
                 #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
@@ -603,7 +603,7 @@ class ImageManager():
                         valor_b = self.reescalonamento_de_valores(valor_b, 65025, 0)
                         
                         img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-            except :
+            except TypeError :
                 #Caso no minimo uma das imagens nao tenha RGB
                 try :
                     #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
@@ -624,7 +624,7 @@ class ImageManager():
                             valor_b = self.reescalonamento_de_valores(valor_b, 65025, 0)
                             
                             img_result.putpixel((x,y), (valor_r, valor_g, valor_b))
-                except :
+                except TypeError :
                     #Caso no minimo de as duas nao terem vao RGB
                     for x in range(tamanho_x):
                         for y in range(tamanho_y):
@@ -685,7 +685,7 @@ class ImageManager():
                         valor = 0
                             
                     img_result.putpixel((x,y), (valor, valor, valor))
-        except :
+        except TypeError :
             try :
                 #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
                 len(pixel1)
@@ -698,7 +698,7 @@ class ImageManager():
                             valor = 0
                                 
                         img_result.putpixel((x,y), (valor, valor, valor))
-            except :
+            except TypeError :
                 try :
                     #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
                     len(pixel2)
@@ -711,7 +711,7 @@ class ImageManager():
                                 valor = 0
                                     
                             img_result.putpixel((x,y), (valor, valor, valor))
-                except :
+                except TypeError :
                     for x in range(tamanho_x):
                         for y in range(tamanho_y):
                             if (img1.getpixel((x,y)) == 255 and img2.getpixel((x,y)) == 255):
@@ -762,7 +762,7 @@ class ImageManager():
                         valor = 255
                             
                     img_result.putpixel((x,y), (valor, valor, valor))
-        except :
+        except TypeError :
             try :
                 #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
                 len(pixel1)
@@ -775,7 +775,7 @@ class ImageManager():
                             valor = 255
                                 
                         img_result.putpixel((x,y), (valor, valor, valor))
-            except :
+            except TypeError :
                 try :
                     #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
                     len(pixel2)
@@ -788,7 +788,7 @@ class ImageManager():
                                 valor = 255
                                     
                             img_result.putpixel((x,y), (valor, valor, valor))
-                except :
+                except TypeError :
                     for x in range(tamanho_x):
                         for y in range(tamanho_y):
                             if (img1.getpixel((x,y)) == 0 and img2.getpixel((x,y)) == 0):
@@ -839,7 +839,7 @@ class ImageManager():
                         valor = 255
                             
                     img_result.putpixel((x,y), (valor, valor, valor))
-        except :
+        except TypeError :
             try :
                 #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
                 len(pixel1)
@@ -852,7 +852,7 @@ class ImageManager():
                             valor = 255
                                 
                         img_result.putpixel((x,y), (valor, valor, valor))
-            except :
+            except TypeError :
                 try :
                     #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
                     len(pixel2)
@@ -865,7 +865,7 @@ class ImageManager():
                                 valor = 255
                                     
                             img_result.putpixel((x,y), (valor, valor, valor))
-                except :
+                except TypeError :
                     for x in range(tamanho_x):
                         for y in range(tamanho_y):
                             if (img1.getpixel((x,y)) == img2.getpixel((x,y))):
@@ -940,7 +940,7 @@ class ImageManager():
     
                     
                     img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
-        except :
+        except TypeError :
             for i in range(0, img.size[0]):
                 for j in range(0, img.size[1]):
                     somador = 0
@@ -1027,7 +1027,7 @@ class ImageManager():
     
                     
                     img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
-        except :
+        except TypeError :
             for i in range(0, img.size[0]):
                 for j in range(0, img.size[1]):
                     somador = 0
@@ -1111,7 +1111,7 @@ class ImageManager():
     
                     
                     img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
-        except :
+        except TypeError :
             for i in range(0, img.size[0]):
                 for j in range(0, img.size[1]):
                     valores = []
@@ -1164,7 +1164,7 @@ class ImageManager():
                     pixel[2] = int(pixel[2] * valor_a)
                     
                     img_amplificado.putpixel((i, j), pixel)
-        except :
+        except TypeError :
             for i in range(0, img.size[0]):
                 for j in range(0, img.size[1]):
                     pixel = img.getpixel((i, j))
@@ -1253,7 +1253,7 @@ class ImageManager():
                     img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
                     img_result_h.putpixel((i, j), (somador_r_h, somador_g_h, somador_b_h))
                     img_result_v.putpixel((i, j), (somador_r_v, somador_g_v, somador_b_v))
-        except :
+        except TypeError :
             for i in range(0, img.size[0]):
                 for j in range(0, img.size[1]):
                     somador_h = 0
@@ -1343,7 +1343,7 @@ class ImageManager():
                     img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
                     img_result_h.putpixel((i, j), (somador_r_h, somador_g_h, somador_b_h))
                     img_result_v.putpixel((i, j), (somador_r_v, somador_g_v, somador_b_v))
-        except :
+        except TypeError :
             for i in range(0, img.size[0]):
                 for j in range(0, img.size[1]):
                     somador_h = 0
@@ -1443,7 +1443,7 @@ class ImageManager():
                     img_result.putpixel((i, j), (somador_r, somador_g, somador_b))
                     img_result_h.putpixel((i, j), (somador_r_h, somador_g_h, somador_b_h))
                     img_result_v.putpixel((i, j), (somador_r_v, somador_g_v, somador_b_v))
-        except :
+        except TypeError :
             for i in range(0, img.size[0]):
                 for j in range(0, img.size[1]):
                     somador_h = 0
@@ -1468,3 +1468,237 @@ class ImageManager():
         img_result.save("../img/modificada_filtro.png")
         img_result_h.save("../img/modificada_filtro_h.png")
         img_result_v.save("../img/modificada_filtro_v.png")
+
+
+    
+    #Metodo que efetua o crescimento de regioes
+    def outros_crescimento_regioes(self, file_path, limiar_t, pixel):
+        img = Image.open(file_path)
+        img.load()
+        img_result = img.copy()
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel_atual = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel_atual)
+
+            lista = [pixel]
+            lista_visitados = [pixel] 
+
+            #Para N4 de x,y -> x-1,y   x+1,y   x,y-1   x,y+1
+            while (len(lista) > 0) :
+                #Remove o primeiro item da lista
+                pixel_atual = lista.pop(0)
+                pixel_atual_rgb = img.getpixel((pixel_atual[0], pixel_atual[1]))
+                
+                #Pinta o pixel
+                img_result.putpixel((pixel_atual[0], pixel_atual[1]), (0, 0, 0))
+                
+                #Verifica para os N4 vizinhos
+                #Trecho verificando para X - 1 e Y
+                if (pixel_atual[0] > 0) :
+                    pixel_vizinho = [int(pixel_atual[0] - 1), int(pixel_atual[1])]
+                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    
+                    distancia = sqrt(pow(pixel_atual_rgb[0] - pixel_vizinho_rgb[0], 2) + 
+                                     pow(pixel_atual_rgb[1] - pixel_vizinho_rgb[1], 2) +
+                                     pow(pixel_atual_rgb[2] - pixel_vizinho_rgb[2], 2))
+                    
+                    if (int(distancia) < int(limiar_t)) :
+                        if (lista_visitados.count(pixel_vizinho) < 1) :
+                            lista.append(pixel_vizinho)
+                            lista_visitados.append(pixel_vizinho)
+    
+                #Trecho verificando para X + 1 e Y
+                if (pixel_atual[0] + 1 < img.size[0]) :
+                    pixel_vizinho = [int(pixel_atual[0] + 1), int(pixel_atual[1])]
+                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    
+                    distancia = sqrt(pow(pixel_atual_rgb[0] - pixel_vizinho_rgb[0], 2) + 
+                                     pow(pixel_atual_rgb[1] - pixel_vizinho_rgb[1], 2) +
+                                     pow(pixel_atual_rgb[2] - pixel_vizinho_rgb[2], 2))
+                    
+                    if (int(distancia) < int(limiar_t)) :
+                        if (lista_visitados.count(pixel_vizinho) < 1) :
+                            lista.append(pixel_vizinho)
+                            lista_visitados.append(pixel_vizinho)
+                            
+                #Trecho verificando para X e Y - 1
+                if (pixel_atual[1] > 0) :
+                    pixel_vizinho = [int(pixel_atual[0]), int(pixel_atual[1] - 1)]
+                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    
+                    distancia = sqrt(pow(pixel_atual_rgb[0] - pixel_vizinho_rgb[0], 2) + 
+                                     pow(pixel_atual_rgb[1] - pixel_vizinho_rgb[1], 2) +
+                                     pow(pixel_atual_rgb[2] - pixel_vizinho_rgb[2], 2))
+                    
+                    if (int(distancia) < int(limiar_t)) :
+                        if (lista_visitados.count(pixel_vizinho) < 1) :
+                            lista.append(pixel_vizinho)
+                            lista_visitados.append(pixel_vizinho)
+    
+                #Trecho verificando para X e Y + 1
+                if (pixel_atual[1] + 1 < img.size[1]) :
+                    pixel_vizinho = [int(pixel_atual[0]), int(pixel_atual[1] + 1)]
+                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    
+                    distancia = sqrt(pow(pixel_atual_rgb[0] - pixel_vizinho_rgb[0], 2) + 
+                                     pow(pixel_atual_rgb[1] - pixel_vizinho_rgb[1], 2) +
+                                     pow(pixel_atual_rgb[2] - pixel_vizinho_rgb[2], 2))
+                    
+                    if (int(distancia) < int(limiar_t)) :
+                        if (lista_visitados.count(pixel_vizinho) < 1) :
+                            lista.append(pixel_vizinho)
+                            lista_visitados.append(pixel_vizinho)
+        except TypeError :
+            #Caso a imagem nao tenha RGB
+            
+            lista = [pixel]
+            lista_visitados = [pixel] 
+
+            #Para N4 de x,y -> x-1,y   x+1,y   x,y-1   x,y+1
+            while (len(lista) > 0) :
+                #Remove o primeiro item da lista
+                pixel_atual = lista.pop(0)
+                pixel_atual_rgb = img.getpixel((pixel_atual[0], pixel_atual[1]))
+                
+                #Pinta o pixel
+                img_result.putpixel((pixel_atual[0], pixel_atual[1]), 0)
+                
+                #Verifica para os N4 vizinhos
+                #Trecho verificando para X - 1 e Y
+                if (pixel_atual[0] > 0) :
+                    pixel_vizinho = [int(pixel_atual[0] - 1), int(pixel_atual[1])]
+                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    
+                    distancia = sqrt(pow(pixel_atual_rgb - pixel_vizinho_rgb, 2)) 
+                    
+                    if (int(distancia) < int(limiar_t)) :
+                        if (lista_visitados.count(pixel_vizinho) < 1) :
+                            lista.append(pixel_vizinho)
+                            lista_visitados.append(pixel_vizinho)
+    
+                #Trecho verificando para X + 1 e Y
+                if (pixel_atual[0] + 1 < img.size[0]) :
+                    pixel_vizinho = [int(pixel_atual[0] + 1), int(pixel_atual[1])]
+                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    
+                    distancia = sqrt(pow(pixel_atual_rgb - pixel_vizinho_rgb, 2))
+                    
+                    if (int(distancia) < int(limiar_t)) :
+                        if (lista_visitados.count(pixel_vizinho) < 1) :
+                            lista.append(pixel_vizinho)
+                            lista_visitados.append(pixel_vizinho)
+                            
+                #Trecho verificando para X e Y - 1
+                if (pixel_atual[1] > 0) :
+                    pixel_vizinho = [int(pixel_atual[0]), int(pixel_atual[1] - 1)]
+                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    
+                    distancia = sqrt(pow(pixel_atual_rgb - pixel_vizinho_rgb, 2))
+                    
+                    if (int(distancia) < int(limiar_t)) :
+                        if (lista_visitados.count(pixel_vizinho) < 1) :
+                            lista.append(pixel_vizinho)
+                            lista_visitados.append(pixel_vizinho)
+    
+                #Trecho verificando para X e Y + 1
+                if (pixel_atual[1] + 1 < img.size[1]) :
+                    print pixel_atual[1] , img.size[1]
+                    pixel_vizinho = [int(pixel_atual[0]), int(pixel_atual[1] + 1)]
+                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    
+                    distancia = sqrt(pow(pixel_atual_rgb - pixel_vizinho_rgb, 2))
+                    
+                    if (int(distancia) < int(limiar_t)) :
+                        if (lista_visitados.count(pixel_vizinho) < 1) :
+                            lista.append(pixel_vizinho)
+                            lista_visitados.append(pixel_vizinho)
+        
+        img_result.save("../img/modificada_outros.png")
+    
+    
+    
+    #Metodo que efetua o crescimento de regioes
+    def outros_deteccao_de_bordas(self, file_path, limiar_t):
+        img = Image.open(file_path)
+        img.load()
+        img_result = Image.new("RGB", (img.size[0], img.size[1]))
+        
+        #Verifica qual o tipo de codec utilizado na criacao da imagem
+        pixel = img.getpixel((0, 0))
+        try :
+            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+            len(pixel)
+
+            #Percorre todos os pixels da imagem e compara com o limiar t
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    pixel = img.getpixel((x,y))
+                    
+                    if (y + 1 < img.size[1]) :
+                        pixel_y = img.getpixel((x,y + 1))
+                        distancia_y = sqrt(pow(pixel[0] - pixel_y[0], 2) + 
+                                           pow(pixel[1] - pixel_y[1], 2) +
+                                           pow(pixel[2] - pixel_y[2], 2))
+                    else :
+                        distancia_y = 0
+                        
+                    if (x + 1 < img.size[0]) :
+                        pixel_x = img.getpixel((x + 1,y))
+                        distancia_x = sqrt(pow(pixel[0] - pixel_x[0], 2) + 
+                                           pow(pixel[1] - pixel_x[1], 2) +
+                                           pow(pixel[2] - pixel_x[2], 2))
+                    else :
+                        distancia_x = 0
+                    
+                    if (distancia_y > 0 and distancia_x > 0) :
+                        distancia = int((distancia_x + distancia_y) / 2)
+                    elif (distancia_y > 0) :
+                        distancia = distancia_y
+                    elif (distancia_x > 0) :
+                        distancia = distancia_x
+                    else:
+                        distancia = 0
+                        
+                    if (distancia > int(limiar_t)):
+                        valor = 0 
+                    else:
+                        valor = 255
+                    img_result.putpixel((x,y), (valor, valor, valor))
+        except TypeError :
+            #Caso a imagem nao tenha RGB
+            #Percorre todos os pixels da imagem e compara com o limiar t
+            for x in range(img.size[0]):
+                for y in range(img.size[1]):
+                    pixel = img.getpixel((x,y))
+                    
+                    if (y + 1 < img.size[1]) :
+                        pixel_y = img.getpixel((x,y + 1))
+                        distancia_y = sqrt(pow(pixel - pixel_y, 2))
+                    else :
+                        distancia_y = 0
+                        
+                    if (x + 1 < img.size[0]) :
+                        pixel_x = img.getpixel((x + 1,y))
+                        distancia_x = sqrt(pow(pixel - pixel_x, 2))
+                    else :
+                        distancia_x = 0
+                    
+                    if (distancia_y > 0 and distancia_x > 0) :
+                        distancia = int((distancia_x + distancia_y) / 2)
+                    elif (distancia_y > 0) :
+                        distancia = distancia_y
+                    elif (distancia_x > 0) :
+                        distancia = distancia_x
+                    else:
+                        distancia = 0
+                        
+                    if (distancia > int(limiar_t)):
+                        valor = 0 
+                    else:
+                        valor = 255
+                    img_result.putpixel((x,y), (valor, valor, valor))
+        
+        img_result.save("../img/modificada_outros.png")
