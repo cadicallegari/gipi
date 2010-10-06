@@ -1477,149 +1477,150 @@ class ImageManager():
         img.load()
         img_result = img.copy()
         
+        #Inicializa a matriz
+        vizinhos_visitados = []
+        for i in range(img.size[0]):
+            vizinhos_visitados.append([])
+            for j in range(img.size[1]):
+                vizinhos_visitados[i].append(0)
+                
+        qtde_vizinhos = 0
+            
         #Verifica qual o tipo de codec utilizado na criacao da imagem
-        pixel_atual = img.getpixel((0, 0))
+        teste = img.getpixel((0, 0))
         try :
             #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
-            len(pixel_atual)
-
-            lista = [pixel]
-            lista_visitados = [pixel] 
-
-            #Para N4 de x,y -> x-1,y   x+1,y   x,y-1   x,y+1
-            while (len(lista) > 0) :
-                #Remove o primeiro item da lista
-                pixel_atual = lista.pop(0)
-                pixel_atual_rgb = img.getpixel((pixel_atual[0], pixel_atual[1]))
+            len(teste)
+            
+            #Comeca a percorrer os vizinhos
+            vizinhos_visitados[pixel[0]][pixel[1]] = 1
+            
+            pilha = []
+            pilha.append([pixel[0], pixel[1]])
+            
+            rgb = img.getpixel((pixel[0], pixel[1]))
+                               
+            while (len(pilha) > 0) :
                 
-                #Pinta o pixel
-                img_result.putpixel((pixel_atual[0], pixel_atual[1]), (0, 0, 0))
-                
-                #Verifica para os N4 vizinhos
-                #Trecho verificando para X - 1 e Y
-                if (pixel_atual[0] > 0) :
-                    pixel_vizinho = [int(pixel_atual[0] - 1), int(pixel_atual[1])]
-                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                ponto = pilha.pop(0)
+                ponto_rgb = img.getpixel((ponto[0], ponto[1]))
+                x = ponto[0]
+                y = ponto[1]
+             
+                if (sqrt(pow(rgb[0] - ponto_rgb[0], 2) + 
+                         pow(rgb[1] - ponto_rgb[1], 2) +
+                         pow(rgb[2] - ponto_rgb[2], 2)) < limiar_t) :
                     
-                    distancia = sqrt(pow(pixel_atual_rgb[0] - pixel_vizinho_rgb[0], 2) + 
-                                     pow(pixel_atual_rgb[1] - pixel_vizinho_rgb[1], 2) +
-                                     pow(pixel_atual_rgb[2] - pixel_vizinho_rgb[2], 2))
+                    img_result.putpixel((ponto), (0, 0, 0))
+                    qtde_vizinhos += 1
                     
-                    if (int(distancia) < int(limiar_t)) :
-                        if (lista_visitados.count(pixel_vizinho) < 1) :
-                            lista.append(pixel_vizinho)
-                            lista_visitados.append(pixel_vizinho)
-    
-                #Trecho verificando para X + 1 e Y
-                if (pixel_atual[0] + 1 < img.size[0]) :
-                    pixel_vizinho = [int(pixel_atual[0] + 1), int(pixel_atual[1])]
-                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
-                    
-                    distancia = sqrt(pow(pixel_atual_rgb[0] - pixel_vizinho_rgb[0], 2) + 
-                                     pow(pixel_atual_rgb[1] - pixel_vizinho_rgb[1], 2) +
-                                     pow(pixel_atual_rgb[2] - pixel_vizinho_rgb[2], 2))
-                    
-                    if (int(distancia) < int(limiar_t)) :
-                        if (lista_visitados.count(pixel_vizinho) < 1) :
-                            lista.append(pixel_vizinho)
-                            lista_visitados.append(pixel_vizinho)
+                    if (x - 1 >= 0) :
+                        if (vizinhos_visitados[x-1][y] == 0) :
+                            pilha.append([x-1,y])
+                            vizinhos_visitados[x-1][y] = 1
                             
-                #Trecho verificando para X e Y - 1
-                if (pixel_atual[1] > 0) :
-                    pixel_vizinho = [int(pixel_atual[0]), int(pixel_atual[1] - 1)]
-                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                        if (y+1 < img.size[1]) :
+                            if (vizinhos_visitados[x-1][y+1] == 0) :
+                                pilha.append([x-1,y+1])
+                                vizinhos_visitados[x-1][y+1] = 1
                     
-                    distancia = sqrt(pow(pixel_atual_rgb[0] - pixel_vizinho_rgb[0], 2) + 
-                                     pow(pixel_atual_rgb[1] - pixel_vizinho_rgb[1], 2) +
-                                     pow(pixel_atual_rgb[2] - pixel_vizinho_rgb[2], 2))
+                    if (y - 1 >= 0) :
+                        if (vizinhos_visitados[x][y-1] == 0) :
+                            pilha.append([x,y-1])
+                            vizinhos_visitados[x][y-1] = 1
+                            
+                        if (x+1 < img.size[0]) :
+                            if (vizinhos_visitados[x+1][y-1] == 0) :
+                                pilha.append([x+1,y-1])
+                                vizinhos_visitados[x+1][y-1] = 1
+                
+                    if (y-1 >= 0 and x-1 >= 0) :
+                        if (vizinhos_visitados[x-1][y-1] == 0) :
+                            pilha.append([x-1,y-1])
+                            vizinhos_visitados[x-1][y-1] = 1
                     
-                    if (int(distancia) < int(limiar_t)) :
-                        if (lista_visitados.count(pixel_vizinho) < 1) :
-                            lista.append(pixel_vizinho)
-                            lista_visitados.append(pixel_vizinho)
-    
-                #Trecho verificando para X e Y + 1
-                if (pixel_atual[1] + 1 < img.size[1]) :
-                    pixel_vizinho = [int(pixel_atual[0]), int(pixel_atual[1] + 1)]
-                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    if (y+1 < img.size[1]) :
+                        if (vizinhos_visitados[x][y+1] == 0) :
+                            pilha.append([x,y+1])
+                            vizinhos_visitados[x][y+1] = 1
                     
-                    distancia = sqrt(pow(pixel_atual_rgb[0] - pixel_vizinho_rgb[0], 2) + 
-                                     pow(pixel_atual_rgb[1] - pixel_vizinho_rgb[1], 2) +
-                                     pow(pixel_atual_rgb[2] - pixel_vizinho_rgb[2], 2))
-                    
-                    if (int(distancia) < int(limiar_t)) :
-                        if (lista_visitados.count(pixel_vizinho) < 1) :
-                            lista.append(pixel_vizinho)
-                            lista_visitados.append(pixel_vizinho)
+                    if (x+1 < img.size[0]) :
+                        if (vizinhos_visitados[x+1][y] == 0) :
+                            pilha.append([x+1,y])
+                            vizinhos_visitados[x+1][y] = 1
+                            
+                    if (x+1 < img.size[0] and y+1 < img.size[1]) :
+                        if (vizinhos_visitados[x+1][y+1] == 0) :
+                            pilha.append([x+1,y+1])
+                            vizinhos_visitados[x+1][y+1] = 1
+        
         except TypeError :
             #Caso a imagem nao tenha RGB
             
-            lista = [pixel]
-            lista_visitados = [pixel] 
-
-            #Para N4 de x,y -> x-1,y   x+1,y   x,y-1   x,y+1
-            while (len(lista) > 0) :
-                #Remove o primeiro item da lista
-                pixel_atual = lista.pop(0)
-                pixel_atual_rgb = img.getpixel((pixel_atual[0], pixel_atual[1]))
+            #Comeca a percorrer os vizinhos
+            vizinhos_visitados[pixel[0]][pixel[1]] = 1
+            
+            pilha = []
+            pilha.append([pixel[0], pixel[1]])
+            
+            rgb = img.getpixel((pixel[0], pixel[1]))
+                               
+            while (len(pilha) > 0) :
                 
-                #Pinta o pixel
-                img_result.putpixel((pixel_atual[0], pixel_atual[1]), 0)
-                
-                #Verifica para os N4 vizinhos
-                #Trecho verificando para X - 1 e Y
-                if (pixel_atual[0] > 0) :
-                    pixel_vizinho = [int(pixel_atual[0] - 1), int(pixel_atual[1])]
-                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                ponto = pilha.pop(0)
+                ponto_rgb = img.getpixel((ponto[0], ponto[1]))
+                x = ponto[0]
+                y = ponto[1]
+             
+                if (sqrt(pow(rgb - ponto_rgb, 2)) < limiar_t) :
                     
-                    distancia = sqrt(pow(pixel_atual_rgb - pixel_vizinho_rgb, 2)) 
+                    img_result.putpixel((ponto), 0)
+                    qtde_vizinhos += 1
                     
-                    if (int(distancia) < int(limiar_t)) :
-                        if (lista_visitados.count(pixel_vizinho) < 1) :
-                            lista.append(pixel_vizinho)
-                            lista_visitados.append(pixel_vizinho)
-    
-                #Trecho verificando para X + 1 e Y
-                if (pixel_atual[0] + 1 < img.size[0]) :
-                    pixel_vizinho = [int(pixel_atual[0] + 1), int(pixel_atual[1])]
-                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
-                    
-                    distancia = sqrt(pow(pixel_atual_rgb - pixel_vizinho_rgb, 2))
-                    
-                    if (int(distancia) < int(limiar_t)) :
-                        if (lista_visitados.count(pixel_vizinho) < 1) :
-                            lista.append(pixel_vizinho)
-                            lista_visitados.append(pixel_vizinho)
+                    if (x - 1 >= 0) :
+                        if (vizinhos_visitados[x-1][y] == 0) :
+                            pilha.append([x-1,y])
+                            vizinhos_visitados[x-1][y] = 1
                             
-                #Trecho verificando para X e Y - 1
-                if (pixel_atual[1] > 0) :
-                    pixel_vizinho = [int(pixel_atual[0]), int(pixel_atual[1] - 1)]
-                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                        if (y+1 < img.size[1]) :
+                            if (vizinhos_visitados[x-1][y+1] == 0) :
+                                pilha.append([x-1,y+1])
+                                vizinhos_visitados[x-1][y+1] = 1
                     
-                    distancia = sqrt(pow(pixel_atual_rgb - pixel_vizinho_rgb, 2))
+                    if (y - 1 >= 0) :
+                        if (vizinhos_visitados[x][y-1] == 0) :
+                            pilha.append([x,y-1])
+                            vizinhos_visitados[x][y-1] = 1
+                            
+                        if (x+1 < img.size[0]) :
+                            if (vizinhos_visitados[x+1][y-1] == 0) :
+                                pilha.append([x+1,y-1])
+                                vizinhos_visitados[x+1][y-1] = 1
+                
+                    if (y-1 >= 0 and x-1 >= 0) :
+                        if (vizinhos_visitados[x-1][y-1] == 0) :
+                            pilha.append([x-1,y-1])
+                            vizinhos_visitados[x-1][y-1] = 1
                     
-                    if (int(distancia) < int(limiar_t)) :
-                        if (lista_visitados.count(pixel_vizinho) < 1) :
-                            lista.append(pixel_vizinho)
-                            lista_visitados.append(pixel_vizinho)
-    
-                #Trecho verificando para X e Y + 1
-                if (pixel_atual[1] + 1 < img.size[1]) :
-                    print pixel_atual[1] , img.size[1]
-                    pixel_vizinho = [int(pixel_atual[0]), int(pixel_atual[1] + 1)]
-                    pixel_vizinho_rgb = img.getpixel((pixel_vizinho[0], pixel_vizinho[1]))
+                    if (y+1 < img.size[1]) :
+                        if (vizinhos_visitados[x][y+1] == 0) :
+                            pilha.append([x,y+1])
+                            vizinhos_visitados[x][y+1] = 1
                     
-                    distancia = sqrt(pow(pixel_atual_rgb - pixel_vizinho_rgb, 2))
-                    
-                    if (int(distancia) < int(limiar_t)) :
-                        if (lista_visitados.count(pixel_vizinho) < 1) :
-                            lista.append(pixel_vizinho)
-                            lista_visitados.append(pixel_vizinho)
+                    if (x+1 < img.size[0]) :
+                        if (vizinhos_visitados[x+1][y] == 0) :
+                            pilha.append([x+1,y])
+                            vizinhos_visitados[x+1][y] = 1
+                            
+                    if (x+1 < img.size[0] and y+1 < img.size[1]) :
+                        if (vizinhos_visitados[x+1][y+1] == 0) :
+                            pilha.append([x+1,y+1])
+                            vizinhos_visitados[x+1][y+1] = 1
+            
+        img_result.save("../img/modificada_outros.png")        
         
-        img_result.save("../img/modificada_outros.png")
-    
-    
-    
+        
+            
     #Metodo que efetua o crescimento de regioes
     def outros_deteccao_de_bordas(self, file_path, limiar_t):
         img = Image.open(file_path)
@@ -1652,20 +1653,11 @@ class ImageManager():
                                            pow(pixel[2] - pixel_x[2], 2))
                     else :
                         distancia_x = 0
-                    
-                    if (distancia_y > 0 and distancia_x > 0) :
-                        distancia = int((distancia_x + distancia_y) / 2)
-                    elif (distancia_y > 0) :
-                        distancia = distancia_y
-                    elif (distancia_x > 0) :
-                        distancia = distancia_x
-                    else:
-                        distancia = 0
                         
-                    if (distancia > int(limiar_t)):
-                        valor = 0 
-                    else:
+                    if ((distancia_x > int(limiar_t)) or (distancia_y > int(limiar_t))):
                         valor = 255
+                    else:
+                        valor = 0 
                     img_result.putpixel((x,y), (valor, valor, valor))
         except TypeError :
             #Caso a imagem nao tenha RGB
@@ -1685,20 +1677,11 @@ class ImageManager():
                         distancia_x = sqrt(pow(pixel - pixel_x, 2))
                     else :
                         distancia_x = 0
-                    
-                    if (distancia_y > 0 and distancia_x > 0) :
-                        distancia = int((distancia_x + distancia_y) / 2)
-                    elif (distancia_y > 0) :
-                        distancia = distancia_y
-                    elif (distancia_x > 0) :
-                        distancia = distancia_x
-                    else:
-                        distancia = 0
                         
-                    if (distancia > int(limiar_t)):
-                        valor = 0 
-                    else:
+                    if ((distancia_x > int(limiar_t)) or (distancia_y > int(limiar_t))):
                         valor = 255
+                    else:
+                        valor = 0 
                     img_result.putpixel((x,y), (valor, valor, valor))
         
         img_result.save("../img/modificada_outros.png")
