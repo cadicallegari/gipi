@@ -182,13 +182,9 @@ class Gui():
         self.hsOutros.connect("button-release-event", self.actOutrosExecutar)
         
         
-        
         self.main_window.show_all()
         self.loop()
 
-
-    def actImprimir(self, widget):
-        print 1
 
     #Metodo da GTK
     def loop(self):
@@ -279,6 +275,7 @@ class Gui():
         img = Image.open(self.fcLimiarizacaoOrigem.get_filename())
         img.load()
         
+        #Efetua os calculos do ponto X e Y clicado na tela
         if (img.size[0] < 610 and img.size[1] < 481) :
             pixel_x = event.get_coords()[0] - int((625 - img.size[0]) / 2)
             pixel_y = event.get_coords()[1] - int((480 - img.size[1]) / 2)
@@ -426,6 +423,7 @@ class Gui():
         imageManager = ImageManager()
         index = self.cbFiltroDin.get_active()
         
+        #Verifica qual sera o tamanho da mascara
         if (index == 2) :
             tamanho_matriz = 7
         elif (index == 1) :
@@ -571,6 +569,8 @@ class Gui():
         img.save(self.fcOutrosDestino.get_filename() + "/outros-" + file[len(file) - 1])
         
         
+        
+#Classe que gerencia a janela Sobre
 class Sobre():
     
     
