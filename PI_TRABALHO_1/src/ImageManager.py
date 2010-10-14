@@ -1189,8 +1189,8 @@ class ImageManager():
                     
                     posicao_meio = int((tamanho_matriz * tamanho_matriz) / 2) 
                     somador_r = valores_r[posicao_meio]
-                    somador_g = valores_b[posicao_meio] 
-                    somador_b = valores_g[posicao_meio]
+                    somador_g = valores_g[posicao_meio] 
+                    somador_b = valores_b[posicao_meio]
                     
                     #Truncamento de valores
                     if (somador_r < 0) :
