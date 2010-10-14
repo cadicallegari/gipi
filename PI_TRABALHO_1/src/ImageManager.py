@@ -1770,7 +1770,7 @@ class ImageManager():
         
         
             
-    #Metodo que efetua o crescimento de regioes
+    #Metodo que efetua a deteccao de bordas de uma imagem
     def outros_deteccao_de_bordas(self, file_path, limiar_t):
         #Efetua o load da imagem passada o caminho como parametro
         img = Image.open(file_path)
