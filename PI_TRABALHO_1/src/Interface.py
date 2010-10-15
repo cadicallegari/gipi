@@ -116,9 +116,7 @@ class Gui():
         self.rbOutrosDeteccao = gui.get_widget("out_radiobutton_deteccao")
         self.evOutros = gui.get_widget("out_eventos")
         self.hsOutros = gui.get_widget("out_hscale")
-        self.txtOutrosR = gui.get_widget("out_txt_r")
-        self.txtOutrosG = gui.get_widget("out_txt_g")
-        self.txtOutrosB = gui.get_widget("out_txt_b")
+        self.txtOutrosVizinhos = gui.get_widget("out_txt_visitados")
                 
         
         
@@ -178,7 +176,7 @@ class Gui():
         #Eventos da aba OUTROS
         self.fcOutrosOrigem.connect("file-set", self.actOutrosCarregaImagem)
         self.btOutrosSalvar.connect("clicked", self.actOutrosSalvar)
-        self.evOutros.connect("button-press-event", self.actOutrosPreencherRgb)
+        self.evOutros.connect("button-press-event", self.actOutrosPreencherPosicaoPixel)
         self.hsOutros.connect("button-release-event", self.actOutrosExecutar)
         
         
@@ -515,8 +513,8 @@ class Gui():
         imagem.set_from_file(self.fcOutrosOrigem.get_filename())
         imagem.show()
         
-    #Metodo que preenche o valor RGB do pixel clicado na imagem
-    def actOutrosPreencherRgb(self, widget, event):
+    #Metodo que preenche a posicao do pixel clicado na imagem
+    def actOutrosPreencherPosicaoPixel(self, widget, event):
         img = Image.open(self.fcOutrosOrigem.get_filename())
         img.load()
         
@@ -536,23 +534,13 @@ class Gui():
         self.pixel_x = pixel_x
         self.pixel_y = pixel_y
         
-        if (pixel_x > 0 and pixel_x < img.size[0] and pixel_y > 0 and pixel_y < img.size[1]) :
-            pixel = img.getpixel((pixel_x, pixel_y))
-            try :
-                self.txtOutrosR.set_text(str(pixel[0]))
-                self.txtOutrosG.set_text(str(pixel[1]))
-                self.txtOutrosB.set_text(str(pixel[2]))
-            except : 
-                self.txtOutrosR.set_text(str(pixel))
-                self.txtOutrosG.set_text(str(pixel))
-                self.txtOutrosB.set_text(str(pixel))
  
     #Metodo que gera a imagem outros
     def actOutrosExecutar(self, widget, arg):
         imageManager = ImageManager()
         #Caso a opcao seja CRESCIMENTO DE REGIOES
         if (self.rbOutrosCrescimento.get_active()):
-            imageManager.outros_crescimento_regioes(self.fcOutrosOrigem.get_filename(), self.hsOutros.get_value(), [int(self.pixel_x), int(self.pixel_y)])
+            self.txtOutrosVizinhos.set_text(imageManager.outros_crescimento_regioes(self.fcOutrosOrigem.get_filename(), self.hsOutros.get_value(), [int(self.pixel_x), int(self.pixel_y)]))
         #Caso a opcao seja DETECCAO DE BORDAS
         else:
             imageManager.outros_deteccao_de_bordas(self.fcOutrosOrigem.get_filename(), self.hsOutros.get_value())

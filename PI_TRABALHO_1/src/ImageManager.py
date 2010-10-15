@@ -1662,46 +1662,49 @@ class ImageManager():
                     img_result.putpixel((ponto), (0, 0, 0))
                     qtde_pixels_regiao += 1
                     
-                    #Verifica para o vizinho com X - 1 e Y
+                    #Verifica para todos os vizinho com X - 1
                     if (x - 1 >= 0) :
                         if (pixels_visitados[x-1][y] == 0) :
                             pilha.append([x-1,y])
                             pixels_visitados[x-1][y] = 1
                             
-                        if (y+1 < img.size[1]) :
+                        if (y + 1 < img.size[1]) :
                             if (pixels_visitados[x-1][y+1] == 0) :
                                 pilha.append([x-1,y+1])
                                 pixels_visitados[x-1][y+1] = 1
+                                
+                        if (y - 1 >= 0) :
+                            if (pixels_visitados[x-1][y-1] == 0) :
+                                pilha.append([x-1,y-1])
+                                pixels_visitados[x-1][y-1] = 1
                     
+                    #Verifica para o vizinho com Y - 1 e X
                     if (y - 1 >= 0) :
                         if (pixels_visitados[x][y-1] == 0) :
                             pilha.append([x,y-1])
                             pixels_visitados[x][y-1] = 1
-                            
-                        if (x+1 < img.size[0]) :
-                            if (pixels_visitados[x+1][y-1] == 0) :
-                                pilha.append([x+1,y-1])
-                                pixels_visitados[x+1][y-1] = 1
-                
-                    if (y-1 >= 0 and x-1 >= 0) :
-                        if (pixels_visitados[x-1][y-1] == 0) :
-                            pilha.append([x-1,y-1])
-                            pixels_visitados[x-1][y-1] = 1
                     
-                    if (y+1 < img.size[1]) :
+                    #Verifica para o vizinho com Y + 1 e X
+                    if (y + 1 < img.size[1]) :
                         if (pixels_visitados[x][y+1] == 0) :
                             pilha.append([x,y+1])
                             pixels_visitados[x][y+1] = 1
                     
-                    if (x+1 < img.size[0]) :
+                    #Verifica para todos os vizinho com X + 1
+                    if (x + 1 < img.size[0]) :
                         if (pixels_visitados[x+1][y] == 0) :
                             pilha.append([x+1,y])
                             pixels_visitados[x+1][y] = 1
                             
-                    if (x+1 < img.size[0] and y+1 < img.size[1]) :
-                        if (pixels_visitados[x+1][y+1] == 0) :
-                            pilha.append([x+1,y+1])
-                            pixels_visitados[x+1][y+1] = 1
+                        if (y + 1 < img.size[1]) :
+                            if (pixels_visitados[x+1][y+1] == 0) :
+                                pilha.append([x+1,y+1])
+                                pixels_visitados[x+1][y+1] = 1
+                        
+                        if (y - 1 >= 0) :
+                            if (pixels_visitados[x+1][y-1] == 0) :
+                                pilha.append([x+1,y-1])
+                                pixels_visitados[x+1][y-1] = 1
         
         except TypeError :
             #Caso a imagem nao tenha RGB
@@ -1709,11 +1712,14 @@ class ImageManager():
             #Comeca a percorrer os vizinhos
             pixels_visitados[pixel[0]][pixel[1]] = 1
             
+            #Pilha dos vizinhos que ainda necessita visitar
             pilha = []
             pilha.append([pixel[0], pixel[1]])
             
+            #Instancia uma variavel com a cor do pixel Semente
             rgb = img.getpixel((pixel[0], pixel[1]))
                                
+            #Executa enquanto existir vizinhos que necessita visitar
             while (len(pilha) > 0) :
                 
                 ponto = pilha.pop(0)
@@ -1726,47 +1732,52 @@ class ImageManager():
                     img_result.putpixel((ponto), 0)
                     qtde_pixels_regiao += 1
                     
+                    #Verifica para todos os vizinho com X - 1
                     if (x - 1 >= 0) :
                         if (pixels_visitados[x-1][y] == 0) :
                             pilha.append([x-1,y])
                             pixels_visitados[x-1][y] = 1
                             
-                        if (y+1 < img.size[1]) :
+                        if (y + 1 < img.size[1]) :
                             if (pixels_visitados[x-1][y+1] == 0) :
                                 pilha.append([x-1,y+1])
                                 pixels_visitados[x-1][y+1] = 1
+                                
+                        if (y - 1 >= 0) :
+                            if (pixels_visitados[x-1][y-1] == 0) :
+                                pilha.append([x-1,y-1])
+                                pixels_visitados[x-1][y-1] = 1
                     
+                    #Verifica para o vizinho com Y - 1 e X
                     if (y - 1 >= 0) :
                         if (pixels_visitados[x][y-1] == 0) :
                             pilha.append([x,y-1])
                             pixels_visitados[x][y-1] = 1
-                            
-                        if (x+1 < img.size[0]) :
-                            if (pixels_visitados[x+1][y-1] == 0) :
-                                pilha.append([x+1,y-1])
-                                pixels_visitados[x+1][y-1] = 1
-                
-                    if (y-1 >= 0 and x-1 >= 0) :
-                        if (pixels_visitados[x-1][y-1] == 0) :
-                            pilha.append([x-1,y-1])
-                            pixels_visitados[x-1][y-1] = 1
                     
-                    if (y+1 < img.size[1]) :
+                    #Verifica para o vizinho com Y + 1 e X
+                    if (y + 1 < img.size[1]) :
                         if (pixels_visitados[x][y+1] == 0) :
                             pilha.append([x,y+1])
                             pixels_visitados[x][y+1] = 1
                     
-                    if (x+1 < img.size[0]) :
+                    #Verifica para todos os vizinho com X + 1
+                    if (x + 1 < img.size[0]) :
                         if (pixels_visitados[x+1][y] == 0) :
                             pilha.append([x+1,y])
                             pixels_visitados[x+1][y] = 1
                             
-                    if (x+1 < img.size[0] and y+1 < img.size[1]) :
-                        if (pixels_visitados[x+1][y+1] == 0) :
-                            pilha.append([x+1,y+1])
-                            pixels_visitados[x+1][y+1] = 1
+                        if (y + 1 < img.size[1]) :
+                            if (pixels_visitados[x+1][y+1] == 0) :
+                                pilha.append([x+1,y+1])
+                                pixels_visitados[x+1][y+1] = 1
+                        
+                        if (y - 1 >= 0) :
+                            if (pixels_visitados[x+1][y-1] == 0) :
+                                pilha.append([x+1,y-1])
+                                pixels_visitados[x+1][y-1] = 1
             
-        img_result.save("../img/modificada_outros.png")        
+        img_result.save("../img/modificada_outros.png")
+        return str(qtde_pixels_regiao)        
         
         
             
