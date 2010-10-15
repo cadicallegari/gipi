@@ -2464,6 +2464,7 @@
                         <property name="layout_style">center</property>
                         <child>
                           <widget class="GtkFileChooserButton" id="out_filechooserbutton_origem">
+                            <property name="width_request">150</property>
                             <property name="visible">True</property>
                             <property name="create_folders">False</property>
                           </widget>
@@ -2477,7 +2478,7 @@
                           <widget class="GtkLabel" id="label33">
                             <property name="width_request">1</property>
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">R</property>
+                            <property name="label" translatable="yes">N&#xFA;mero Visitados</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -2486,7 +2487,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkEntry" id="out_txt_r">
+                          <widget class="GtkEntry" id="out_txt_visitados">
                             <property name="width_request">5</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -2496,56 +2497,6 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label34">
-                            <property name="width_request">1</property>
-                            <property name="visible">True</property>
-                            <property name="label" translatable="yes">G</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkEntry" id="out_txt_g">
-                            <property name="width_request">5</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">4</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label35">
-                            <property name="width_request">1</property>
-                            <property name="visible">True</property>
-                            <property name="label" translatable="yes">B</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">5</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkEntry" id="out_txt_b">
-                            <property name="width_request">5</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">6</property>
                           </packing>
                         </child>
                       </widget>
