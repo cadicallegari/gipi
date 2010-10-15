@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
 Created on 17/08/2010
 

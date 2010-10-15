@@ -174,7 +174,7 @@ class ImageManager():
                         valor = 0
                     else:
                         valor = 255
-                    img_result.putpixel((x,y), valor, valor, valor)
+                    img_result.putpixel((x,y), (valor, valor, valor))
         
         #Salva a imagem resultante
         img_result.save("../img/modificada_limiarizacao.png")
