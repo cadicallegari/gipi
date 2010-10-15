@@ -1253,25 +1253,25 @@ class ImageManager():
         img.load()
         img_amplificado = Image.new("RGB", (img.size[0], img.size[1]))
         #Valor de amplificacao
-        valor_a = valor_a - 1 
+        valor_a = valor_a - 1
         
         #Verifica qual o tipo de codec utilizado na criacao da imagem
         pixel = img.getpixel((0, 0))
         try :
-            #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
+                #Verifica se a imagem tem valores de RGB atraves da verificacao do tamanho da List
             len(pixel)
-
+    
             #Percorre a imagem efetuando a multiplicacao dos pixels pelo valor de aplificacao
             #img[0] X e img[1] Y
             for i in range(0, img.size[0]):
                 for j in range(0, img.size[1]):
                     pixel = img.getpixel((i, j))
                     
-                    pixel[0] = int(pixel[0] * valor_a)
-                    pixel[1] = int(pixel[1] * valor_a)
-                    pixel[2] = int(pixel[2] * valor_a)
+                    r = int(pixel[0] * valor_a)
+                    g = int(pixel[1] * valor_a)
+                    b = int(pixel[2] * valor_a)
                     
-                    img_amplificado.putpixel((i, j), pixel)
+                    img_amplificado.putpixel((i, j), (r, g, b))
         #Caso a imagem nao tenha RGB
         except TypeError :
             #Percorre a imagem efetuando a multiplicacao dos pixels pelo valor de aplificacao
